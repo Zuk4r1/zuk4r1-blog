@@ -20,6 +20,7 @@ Eh diseñado esta ruta de preparación utilizando laboratorios **gratuitos** de 
 
 ### 1. Network Services
 **📌 Nivel:** Free | **🎯 Enfoque:** Protocolos básicos
+
 Esta sala es fundamental para entender cómo interactuar con servicios comunes sin herramientas automatizadas complejas.
 - **Herramientas clave:** `nmap` `-sn`, `-sV`, `-O`, clientes SMB, FTP y HTTP.
 - **Objetivos de aprendizaje:**
@@ -28,6 +29,7 @@ Esta sala es fundamental para entender cómo interactuar con servicios comunes s
 
 ### 2. Network Services 2
 **📌 Nivel:** Free | **🎯 Enfoque:** Enumeración profunda
+
 Profundiza en la configuración insegura de servicios de red, un escenario clásico en el eJPT.
 - **Técnicas clave:**
   - **SMB Enumeration:** Listado de recursos compartidos (`shares`) y usuarios.
@@ -40,6 +42,7 @@ Profundiza en la configuración insegura de servicios de red, un escenario clás
 
 ### 3. Blue
 **📌 Nivel:** Free | **🎯 Enfoque:** Explotación de vulnerabilidades críticas
+
 El escenario perfecto para practicar la identificación y explotación de fallos históricos como EternalBlue.
 - **Técnicas clave:**
   - Enumeración exhaustiva de Windows.
@@ -48,6 +51,7 @@ El escenario perfecto para practicar la identificación y explotación de fallos
 
 ### 4. Steel Mountain
 **📌 Nivel:** Free | **🎯 Enfoque:** Servidores Windows y Escalada
+
 Simula un entorno corporativo con Windows Server, combinando vulnerabilidades web con escalada de privilegios.
 - **Técnicas clave:**
   - Enumeración de servicios HTTP en puertos no estándar.
@@ -60,6 +64,7 @@ Simula un entorno corporativo con Windows Server, combinando vulnerabilidades we
 
 ### 5. WordPress: Basics & Blog
 **📌 Nivel:** Free | **🎯 Enfoque:** Enumeración y Fuerza Bruta
+
 Dos salas esenciales para dominar el ataque al CMS más popular del mundo.
 - **Técnicas clave:**
   - Uso de **WPScan** para enumerar usuarios, plugins y temas.
@@ -68,6 +73,7 @@ Dos salas esenciales para dominar el ataque al CMS más popular del mundo.
 
 ### 6. DVWA (Damn Vulnerable Web App)
 **📌 Nivel:** Free | **🎯 Enfoque:** Vulnerabilidades Web Clásicas
+
 Un entorno controlado para entender la lógica detrás de los fallos web.
 - **Técnicas clave:**
   - **Command Injection:** Ejecución de comandos del sistema a través de inputs web.
@@ -75,6 +81,7 @@ Un entorno controlado para entender la lógica detrás de los fallos web.
 
 ### 7. Vulnversity
 **📌 Nivel:** Free | **🎯 Enfoque:** Fuzzing y Uploads
+
 Práctica intensiva de reconocimiento web y explotación de subidas de archivos.
 - **Técnicas clave:**
   - Fuzzing de directorios con `dirb` o `gobuster`.
@@ -98,6 +105,7 @@ Práctica intensiva de reconocimiento web y explotación de subidas de archivos.
 ## 🟢 Fase 5: Servicios e Infraestructura
 ### 9. Kenobi
 **📌 Nivel:** Free | **🎯 Enfoque:** Samba, NFS y ProFTPD
+
 Una máquina "todo en uno" que combina múltiples vectores de entrada.
 - **Técnicas clave:**
   - Explotación de FTP anónimo y montajes NFS.
@@ -123,16 +131,16 @@ Una máquina "todo en uno" que combina múltiples vectores de entrada.
 ### Mapeo Rápido de Temas
 Utiliza esta tabla para reforzar áreas específicas donde te sientas débil antes del examen.
 
-| Tema Clave | Room Recomendada (Free) |
-| :--- | :--- |
-| **SMB / Windows** | Blue |
-| **WordPress** | Blog |
-| **Drupal** | Overpass |
-| **FTP Anon** | Kenobi |
-| **Command Injection** | DVWA |
-| **Pivoting** | Internal |
-| **Linux PrivEsc** | Vulnversity |
-| **Meterpreter** | Metasploit |
+Tema Clave                   Room Recomendada (Free) 
+
+**SMB / Windows**            Blue 
+**WordPress**                Blog 
+**Drupal**                   Overpass 
+**FTP Anon**                 Kenobi
+**Command Injection**        DVWA 
+**Pivoting**                 Internal
+**Linux PrivEsc**            Vulnversity
+**Meterpreter**              Metasploit
 
 ### 🎯 La Ruta Óptima (Time-Crunch)
 Si tienes poco tiempo y necesitas cubrir el 80% del examen con el mínimo esfuerzo, completa estas 7 salas en orden:
@@ -149,3 +157,4 @@ Si tienes poco tiempo y necesitas cubrir el 80% del examen con el mínimo esfuer
 > Esta ruta no solo te prepara para aprobar el eJPT, sino que construye una metodología sólida de pentesting. La clave del éxito en el examen no es memorizar herramientas, sino entender el flujo: **Enumerar > Identificar Vector > Explotar > Post-Explotación > Pivotar**.
 
 ## *¡Mucha suerte en tu certificación! Mantén la calma, enumera todo dos veces y "Try Harder".*
+
