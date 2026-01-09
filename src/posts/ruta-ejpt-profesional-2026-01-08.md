@@ -134,12 +134,19 @@ Utiliza esta tabla para reforzar áreas específicas donde te sientas débil ant
 Tema Clave                   Room Recomendada (Free) 
 
 **SMB / Windows**            Blue 
+
 **WordPress**                Blog 
+
 **Drupal**                   Overpass 
+
 **FTP Anon**                 Kenobi
+
 **Command Injection**        DVWA 
+
 **Pivoting**                 Internal
+
 **Linux PrivEsc**            Vulnversity
+
 **Meterpreter**              Metasploit
 
 ### 🎯 La Ruta Óptima (Time-Crunch)
@@ -157,4 +164,5 @@ Si tienes poco tiempo y necesitas cubrir el 80% del examen con el mínimo esfuer
 > Esta ruta no solo te prepara para aprobar el eJPT, sino que construye una metodología sólida de pentesting. La clave del éxito en el examen no es memorizar herramientas, sino entender el flujo: **Enumerar > Identificar Vector > Explotar > Post-Explotación > Pivotar**.
 
 ## *¡Mucha suerte en tu certificación! Mantén la calma, enumera todo dos veces y "Try Harder".*
+
 
