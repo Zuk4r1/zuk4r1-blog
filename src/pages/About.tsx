@@ -58,6 +58,63 @@ export function About() {
       </div>
 
       <div className="bg-cyber-card/80 border border-cyber-border rounded-lg p-8 mb-8 glow-border">
+        <h2 className="text-2xl font-bold text-white mb-3">🧰 Tecnologías utilizadas</h2>
+        <p className="text-cyber-text/80 leading-relaxed mb-6">
+          Este blog está construido con un stack moderno orientado a rendimiento, seguridad y UX.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">React 18</h4>
+            <p className="text-cyber-text/70 text-sm">Renderizado declarativo y componentes.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">Vite 7</h4>
+            <p className="text-cyber-text/70 text-sm">Bundling ultra-rápido y DX moderna.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">Tailwind CSS 3</h4>
+            <p className="text-cyber-text/70 text-sm">Estilos utilitarios y diseño responsive.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">React Router 6</h4>
+            <p className="text-cyber-text/70 text-sm">Ruteo SPA con navegación fluida.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">@tanstack/react-query</h4>
+            <p className="text-cyber-text/70 text-sm">Gestión de datos y caché en cliente.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">framer-motion</h4>
+            <p className="text-cyber-text/70 text-sm">Animaciones declarativas y fluidas.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">react-markdown + remark-gfm</h4>
+            <p className="text-cyber-text/70 text-sm">Render seguro de contenido Markdown.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">rehype-sanitize</h4>
+            <p className="text-cyber-text/70 text-sm">Sanitización de HTML para seguridad.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">react-syntax-highlighter</h4>
+            <p className="text-cyber-text/70 text-sm">Resaltado de código en publicaciones.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">lucide-react</h4>
+            <p className="text-cyber-text/70 text-sm">Íconos ligeros y consistentes.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">sonner</h4>
+            <p className="text-cyber-text/70 text-sm">Notificaciones accesibles y estilizadas.</p>
+          </div>
+          <div className="glass-card p-4 rounded-lg border border-cyber-border/50">
+            <h4 className="text-white font-semibold">gray-matter</h4>
+            <p className="text-cyber-text/70 text-sm">Frontmatter para metadatos en Markdown.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-cyber-card/80 border border-cyber-border rounded-lg p-8 mb-8 glow-border">
         <h2 className="text-2xl font-bold text-white mb-3">👤 ¿Quién está detrás de CYBER-BLOG?</h2>
         <p className="text-cyber-text/80 leading-relaxed">
           CYBER-BLOG es mantenido por <span className="text-cyber-primary glow-text font-semibold">Zuk4r1</span>, estudiante de ciberseguridad y hacking ético,
@@ -86,5 +143,3 @@ export function About() {
     </motion.div>
   );
 }
-
-
