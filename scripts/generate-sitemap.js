@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 const POSTS_DIR = path.join(__dirname, '../src/posts');
 const PUBLIC_DIR = path.join(__dirname, '../public');
-const SITE_URL = 'https://zuk4r1-blog.com'; // ¡Cambia esto por tu dominio real!
+const SITE_URL = 'https://zuk4r1-blog.vercel.app/'; //
 
 // Función simple para extraer metadatos del frontmatter sin dependencias externas
 function parseFrontmatter(content) {
