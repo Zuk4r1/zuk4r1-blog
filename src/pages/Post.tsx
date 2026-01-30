@@ -10,12 +10,24 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Calendar, Clock, ArrowLeft, Terminal } from 'lucide-react';
 import { parseDateLocal } from '@/lib/date';
+import { useSEO } from '@/hooks/use-seo';
 
 export function Post() {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = React.useState<PostType | null>(null);
   const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
+
+  useSEO({
+    title: post ? post.title : 'Cargando...',
+    description: post ? post.description : 'Cargando artículo...',
+    url: window.location.href,
+    image: 'https://zuk4r1-blog.com/og-image.jpg', // Imagen por defecto o específica si existiera
+    type: 'article',
+    keywords: post ? post.tags : [],
+    publishedTime: post ? parseDateLocal(post.date).toISOString() : undefined,
+    author: 'Zuk4r1'
+  });
 
   React.useEffect(() => {
     if (id) {
@@ -212,3 +224,4 @@ export function Post() {
     </motion.article>
   );
 }
+
