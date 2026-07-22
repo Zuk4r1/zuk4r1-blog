@@ -173,9 +173,10 @@ export function Post() {
                         PreTag="div"
                         customStyle={{
                           margin: 0,
-                          padding: '3rem 1.5rem 1.5rem',
+                          padding: '1.25rem 1rem',
                           background: '#0a0a0a',
                           fontSize: '0.9rem',
+                          overflowX: 'auto',
                         }}
                         {...props}
                       >
