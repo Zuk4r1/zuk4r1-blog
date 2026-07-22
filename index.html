@@ -9,6 +9,10 @@
     
     <!-- Seguridad: Referrer Policy (CSP se gestiona via headers en desarrollo) -->
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <!-- Seguridad adicional: CSP y cabeceras que ayudan en entornos estáticos -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; base-uri 'self'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
     
     <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,17 +24,17 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://zuk4r1-blog.com/" />
+    <meta property="og:url" content="https://www.blog-cyber.co/" />
     <meta property="og:title" content="Zuk4r1 Blog - Ciberseguridad y Hacking Ético" />
     <meta property="og:description" content="Blog sobre ciberseguridad, hacking ético y tecnología. Tutoriales, guías y recursos para profesionales de la seguridad informática." />
-    <meta property="og:image" content="https://zuk4r1-blog.com/og-image.jpg" />
+    <meta property="og:image" content="https://www.blog-cyber.co/og-image.jpg" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://zuk4r1-blog.com/" />
+    <meta property="twitter:url" content="https://www.blog-cyber.co/" />
     <meta property="twitter:title" content="Zuk4r1 Blog - Ciberseguridad y Hacking Ético" />
     <meta property="twitter:description" content="Blog sobre ciberseguridad, hacking ético y tecnología. Tutoriales, guías y recursos para profesionales de la seguridad informática." />
-    <meta property="twitter:image" content="https://zuk4r1-blog.com/og-image.jpg" />
+    <meta property="twitter:image" content="https://www.blog-cyber.co/og-image.jpg" />
   </head>
   <body class="antialiased">
     <div id="root"></div>

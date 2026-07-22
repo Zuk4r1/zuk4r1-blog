@@ -8,19 +8,17 @@ export default defineConfig(({ mode }) => ({
   server: {
     port: 3000,
     open: true,
-    headers: mode === 'production'
-      ? {
-          // CSP estricta solo para producción
-          'Content-Security-Policy': "default-src 'self'; script-src 'self' blob:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; worker-src 'self' blob:; connect-src 'self' ws: wss: http://localhost:3000 http://127.0.0.1:3000; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
-          'X-Frame-Options': 'DENY',
-          'X-Content-Type-Options': 'nosniff',
-          'Referrer-Policy': 'strict-origin-when-cross-origin',
-          'Cross-Origin-Opener-Policy': 'same-origin',
-          'Cross-Origin-Resource-Policy': 'same-origin',
-          'Permissions-Policy': 'accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()',
-          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
-        }
-      : undefined
+    headers: {
+        // Cabeceras de seguridad para el servidor de desarrollo y producción (útiles localmente)
+        'Content-Security-Policy': "default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; worker-src 'self' blob:; connect-src 'self' ws: wss: http://localhost:3000 http://127.0.0.1:3000; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+        'X-Frame-Options': 'DENY',
+        'X-Content-Type-Options': 'nosniff',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'Cross-Origin-Resource-Policy': 'same-origin',
+        'Permissions-Policy': 'accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()',
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+    }
   },
   define: {
     global: 'globalThis',
