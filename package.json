@@ -8,6 +8,7 @@
     "build": "vite build",
     "sitemap": "node scripts/generate-sitemap.js",
     "watch:sitemap": "node scripts/watch-sitemap.js",
+    "prepare:og": "node scripts/prepare-og-image.js",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -53,6 +54,7 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.4.5",
     "vite": "^7.2.6",
-    "chokidar": "^3.5.3"
+    "chokidar": "^3.5.3",
+    "sharp": "^0.32.1"
   }
 }
