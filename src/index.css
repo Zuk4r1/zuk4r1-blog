@@ -59,6 +59,22 @@
   }
 }
 
+/* Site header height variable — used to keep main content below the fixed header
+   Adjust on small screens to avoid content being overlapped by a taller header */
+.site-header {
+  --site-header-height: 80px; /* default header height for desktop/tablet */
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    --site-header-height: 112px; /* taller mobile header (stacked layout) */
+  }
+}
+
+.site-main {
+  padding-top: var(--site-header-height);
+}
+
 @layer utilities {
   .glass-panel {
     @apply backdrop-blur-md bg-cyber-card/60 border border-cyber-primary/20 shadow-glass;

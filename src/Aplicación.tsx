@@ -12,6 +12,31 @@ export default function Aplicación() {
     console.log('Buscando:', query);
   };
   const [open, setOpen] = React.useState(false);
+  const headerRef = React.useRef<HTMLElement | null>(null);
+
+  // Ajusta la variable CSS --site-header-height con la altura real del header
+  React.useEffect(() => {
+    const setHeaderHeight = () => {
+      const el = headerRef.current;
+      const height = el ? Math.ceil(el.getBoundingClientRect().height) : 80;
+      document.documentElement.style.setProperty('--site-header-height', `${height}px`);
+    };
+
+    setHeaderHeight();
+
+    // ResizeObserver para cambios dinámicos en el header (por ejemplo menú apilado)
+    let ro: ResizeObserver | null = null;
+    if (headerRef.current && (window as any).ResizeObserver) {
+      ro = new (window as any).ResizeObserver(() => setHeaderHeight());
+      ro.observe(headerRef.current);
+    }
+
+    window.addEventListener('resize', setHeaderHeight);
+    return () => {
+      window.removeEventListener('resize', setHeaderHeight);
+      if (ro && headerRef.current) ro.unobserve(headerRef.current);
+    };
+  }, [open]);
 
   return (
     <BrowserRouter>
@@ -28,7 +53,7 @@ export default function Aplicación() {
             </div>
 
             {/* Header con Logo y Búsqueda (adaptable a móviles) */}
-            <header className="fixed top-0 md:left-64 left-0 right-0 z-40 bg-cyber-background/80 backdrop-blur-md border-b border-cyber-border/40 transition-all duration-300 gpu-smooth">
+            <header ref={headerRef} className="site-header fixed top-0 md:left-64 left-0 right-0 z-40 bg-cyber-background/80 backdrop-blur-md border-b border-cyber-border/40 transition-all duration-300 gpu-smooth">
               <div className="w-full px-4 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between max-w-7xl mx-auto">
                 <div className="flex items-center gap-3">
                   <button 
@@ -50,7 +75,7 @@ export default function Aplicación() {
             </header>
 
             {/* Layout Principal */}
-            <div className="flex pt-[72px] sm:pt-20 relative z-10">
+            <div className="flex site-main relative z-10">
               {/* Sidebar (oculto en móviles) */}
               <Sidebar />
 
