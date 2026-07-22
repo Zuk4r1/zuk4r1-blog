@@ -205,6 +205,18 @@
   }
 }
 
+/* Mejoras de legibilidad en pantallas pequeñas */
+@media (max-width: 640px) {
+  .glass-panel { padding: 1rem !important; }
+  .markdown-body { font-size: 1rem; line-height: 1.8; }
+  .readable-list { padding-left: 0.75rem; padding-right: 0.75rem; }
+  .markdown-body h1, .markdown-body h2, .markdown-body h3 { text-shadow: none; }
+  .glow-text { text-shadow: 0 0 4px rgba(0,255,159,0.35); }
+  .markdown-body pre { padding: 0.75rem !important; font-size: 0.9rem !important; }
+  .markdown-body code { white-space: pre-wrap; word-break: break-word; }
+  .markdown-body img { width: 100%; height: auto; object-fit: contain; }
+}
+
 @layer components {
   .cyber-button {
     @apply relative overflow-hidden bg-transparent border border-cyber-primary text-cyber-primary px-6 py-2 
