@@ -157,33 +157,50 @@ export function Post() {
               components={{
                 code({inline, className, children, ...props}: { inline?: boolean; className?: string; children?: React.ReactNode; [key: string]: unknown }) {
                   const match = /language-(\w+)/.exec(className || '');
-                  return !inline && match ? (
-                    <div className="relative group my-6 rounded-lg overflow-hidden border border-cyber-border/50 shadow-2xl">
-                      <div className="absolute top-0 left-0 right-0 bg-[#1e1e1e] border-b border-white/10 px-4 py-2 flex items-center justify-between">
-                         <div className="flex gap-1.5">
-                           <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
-                           <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
-                           <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
-                         </div>
-                         <span className="text-xs font-mono text-white/50">{match[1]}</span>
+                  // Block code with detected language -> syntax highlighter
+                  if (!inline && match) {
+                    return (
+                      <div className="relative group my-6 rounded-lg overflow-hidden border border-cyber-border/50 shadow-2xl code-block">
+                        <div className="absolute top-0 left-0 right-0 bg-[#1e1e1e] border-b border-white/10 px-4 py-2 flex items-center justify-between">
+                           <div className="flex gap-1.5">
+                             <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
+                             <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                             <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
+                           </div>
+                           <span className="text-xs font-mono text-white/50">{match[1]}</span>
+                        </div>
+                        <SyntaxHighlighter
+                          style={vscDarkPlus}
+                          language={match[1]}
+                          PreTag="div"
+                          customStyle={{
+                            margin: 0,
+                            padding: '3rem 1rem 1rem',
+                            background: '#0a0a0a',
+                            fontSize: '0.9rem',
+                            overflowX: 'auto',
+                          }}
+                          {...props}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </SyntaxHighlighter>
                       </div>
-                      <SyntaxHighlighter
-                        style={vscDarkPlus}
-                        language={match[1]}
-                        PreTag="div"
-                        customStyle={{
-                          margin: 0,
-                          padding: '1.25rem 1rem',
-                          background: '#0a0a0a',
-                          fontSize: '0.9rem',
-                          overflowX: 'auto',
-                        }}
-                        {...props}
-                      >
-                        {String(children).replace(/\n$/, '')}
-                      </SyntaxHighlighter>
-                    </div>
-                  ) : (
+                    );
+                  }
+
+                  // Block code without language -> render plain pre/code with proper styles
+                  if (!inline && !match) {
+                    return (
+                      <pre className="my-6 rounded-lg overflow-auto border border-cyber-border/50 bg-[#0a0a0a] p-4">
+                        <code className="block font-mono text-sm text-cyber-text whitespace-pre-wrap break-words">
+                          {String(children).replace(/\n$/, '')}
+                        </code>
+                      </pre>
+                    );
+                  }
+
+                  // Inline code
+                  return (
                     <code className="bg-cyber-primary/10 text-cyber-primary px-1.5 py-0.5 rounded font-mono text-sm border border-cyber-primary/20" {...props}>
                       {children}
                     </code>
