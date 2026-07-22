@@ -11,6 +11,7 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Calendar, Clock, ArrowLeft, Terminal } from 'lucide-react';
 import { parseDateLocal } from '@/lib/date';
 import { useSEO } from '@/hooks/use-seo';
+import { isValidUrl } from '@/utils/sanitize';
 
 export function Post() {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,7 @@ export function Post() {
     title: post ? post.title : 'Cargando...',
     description: post ? post.description : 'Cargando artículo...',
     url: window.location.href,
-    image: 'https://zuk4r1-blog.com/og-image.jpg', // Imagen por defecto o específica si existiera
+    image: 'https://www.blog-cyber.co/og-image.jpg', // Imagen por defecto o específica si existiera
     type: 'article',
     keywords: post ? post.tags : [],
     publishedTime: post ? parseDateLocal(post.date).toISOString() : undefined,
@@ -138,7 +139,7 @@ export function Post() {
              </blockquote>
           )}
           
-          {post.content && (
+              {post.content && (
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[[rehypeSanitize, {
@@ -221,6 +222,54 @@ export function Post() {
                       {alt && <p className="text-center text-sm text-cyber-muted mt-2 font-mono italic">{alt}</p>}
                    </div>
                 )
+              }}
+              // Seguridad: renderizadores personalizados para enlaces e imágenes
+              components={{
+                a: ({ href, children, ...props }: any) => {
+                  const safeHref = href || '';
+                  // permitir mailto y urls válidas (http/https)
+                  if (safeHref.startsWith('mailto:') || isValidUrl(safeHref)) {
+                    const isExternal = safeHref.startsWith('http');
+                    return (
+                      <a
+                        href={safeHref}
+                        {...props}
+                        target={isExternal ? '_blank' : undefined}
+                        rel={isExternal ? 'noopener noreferrer' : undefined}
+                        className="text-cyber-primary hover:underline"
+                      >
+                        {children}
+                      </a>
+                    );
+                  }
+
+                  // enlaces no seguros -> renderizar texto sin enlace
+                  return <span className="text-cyber-muted">{children}</span>;
+                },
+                img: ({src, alt}) => (
+                   (() => {
+                     const safeSrc = src || '';
+                     // permitir solo http/https o relative paths, evitar javascript: o data: URIs except images
+                     if (isValidUrl(safeSrc) || safeSrc.startsWith('/') || safeSrc.startsWith('./')) {
+                       return (
+                         <div className="my-8 relative group">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-cyber-primary to-cyber-secondary rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                            <img 
+                              src={safeSrc} 
+                              alt={alt} 
+                              className="relative rounded-lg shadow-2xl border border-cyber-border w-full object-contain" 
+                              loading="lazy"
+                              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                            />
+                            {alt && <p className="text-center text-sm text-cyber-muted mt-2 font-mono italic">{alt}</p>}
+                         </div>
+                       );
+                     }
+
+                     // fuente no segura -> mostrar alt/placeholder
+                     return <p className="text-cyber-muted">[Imagen no disponible]</p>;
+                   })()
+                ),
               }}
             >
               {post.content}

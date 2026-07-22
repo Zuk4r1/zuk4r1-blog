@@ -24,14 +24,12 @@ Esta entrada resume la resolución de la máquina **Chocolate Factory**, desde e
 Primero se agrga la ip al archivo `hosts` para poder trabajar con la IP de la máquina objetivo.
 
 ```bash
-
 nano /etc/hosts
 ```
 
 A continuación, se realiza un escaneo activo de la máquina objetivo:
 
 ```bash
-
 nmap -sCV -T5 -Pn --min-rate 95000 10.66.130.38
 ```
 
@@ -49,14 +47,12 @@ El resultado muestra que el puerto `21/tcp` está abierto y ejecuta un servicio 
 El escaneo identificó FTP anónimo permitido, lo que nos permite navegar sin credenciales y descargar archivos interesantes desde el servidor.
 
 ```bash
-
 ftp 10.66.130.38
 ```
 
 Una vez conectado al servidor FTP se descarga la llave y la imagen relacionada:
 
 ```bash
-
 get key_rev_key
 get gum_room.jpg
 ```
