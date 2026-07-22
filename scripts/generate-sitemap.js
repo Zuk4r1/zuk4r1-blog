@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 const POSTS_DIR = path.join(__dirname, '../src/posts');
 const PUBLIC_DIR = path.join(__dirname, '../public');
-const SITE_URL = 'https://zuk4r1-blog.vercel.app/'; //
+const SITE_URL = 'https://www.blog-cyber.co';
 
 // Función simple para extraer metadatos del frontmatter sin dependencias externas
 function parseFrontmatter(content) {
@@ -23,7 +23,7 @@ function parseFrontmatter(content) {
   };
 }
 
-function generateSitemap() {
+export function generateSitemap() {
   console.log('Generando sitemap...');
   
   if (!fs.existsSync(POSTS_DIR)) {
@@ -79,4 +79,7 @@ function generateSitemap() {
   console.log(`Sitemap generado con ${urls.length} posts en ${path.join(PUBLIC_DIR, 'sitemap.xml')}`);
 }
 
-generateSitemap();
+// Ejecutar solo cuando se invoque directamente con Node
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  generateSitemap();
+}
