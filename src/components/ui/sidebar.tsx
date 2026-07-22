@@ -163,8 +163,10 @@ export function SidebarOverlay({ onClose }: { onClose: () => void }) {
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            <h1 className="text-lg font-cyber text-cyber-primary glow-text mb-2">Zuk4r1</h1>
-            <p className="text-xs text-cyber-text/70 font-mono">&lt;SecurityResearcher /&gt;</p>
+            <h1 className="text-lg font-cyber text-cyber-primary glow-text mb-3">Zuk4r1</h1>
+            <p className="text-sm text-white px-3 glow-text">
+              Donde la curiosidad impulsa la seguridad.
+            </p>
           </div>
           <nav className="p-6">
             <ul className="space-y-4">
