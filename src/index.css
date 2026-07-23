@@ -266,18 +266,6 @@
   line-height: 1.8;
   overflow-wrap: anywhere;
   word-wrap: break-word;
-  min-width: 0;
-  max-width: 100%;
-}
-
-/* Red de seguridad: ningún elemento embebido puede ser más ancho que su contenedor */
-.markdown-body img,
-.markdown-body table,
-.markdown-body pre,
-.markdown-body iframe,
-.markdown-body video,
-.markdown-body svg {
-  max-width: 100%;
 }
 
 .readable {
