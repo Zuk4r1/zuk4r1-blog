@@ -139,7 +139,7 @@ export function Post() {
              </blockquote>
           )}
           
-              {post.content && (
+          {post.content && (
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[[rehypeSanitize, {
@@ -156,9 +156,32 @@ export function Post() {
                 }
               }]]}
               components={{
+                // Seguridad: renderizador de enlaces (solo mailto o http/https válidas)
+                a: ({ href, children, ...props }: any) => {
+                  const safeHref = href || '';
+                  if (safeHref.startsWith('mailto:') || isValidUrl(safeHref)) {
+                    const isExternal = safeHref.startsWith('http');
+                    return (
+                      
+                        href={safeHref}
+                        {...props}
+                        target={isExternal ? '_blank' : undefined}
+                        rel={isExternal ? 'noopener noreferrer' : undefined}
+                        className="text-cyber-primary hover:underline"
+                      >
+                        {children}
+                      </a>
+                    );
+                  }
+
+                  // enlaces no seguros -> renderizar texto sin enlace
+                  return <span className="text-cyber-muted">{children}</span>;
+                },
+
+                // Bloques e inline code, con syntax highlighting responsive
                 code({inline, className, children, ...props}: { inline?: boolean; className?: string; children?: React.ReactNode; [key: string]: unknown }) {
                   const match = /language-(\w+)/.exec(className || '');
-                  // Block code with detected language -> syntax highlighter
+                  // Block code con lenguaje detectado -> syntax highlighter
                   if (!inline && match) {
                     return (
                       <div className="relative group my-6 rounded-lg overflow-hidden border border-cyber-border/50 shadow-2xl code-block">
@@ -189,7 +212,7 @@ export function Post() {
                     );
                   }
 
-                  // Block code without language -> render plain pre/code with proper styles
+                  // Block code sin lenguaje -> pre/code plano con wrap
                   if (!inline && !match) {
                     return (
                       <pre className="my-6 rounded-lg overflow-auto border border-cyber-border/50 bg-[#0a0a0a] p-4">
@@ -207,69 +230,29 @@ export function Post() {
                     </code>
                   );
                 },
-                img: ({src, alt}) => (
-                   <div className="my-8 relative group">
-                      <div className="absolute -inset-1 bg-gradient-to-r from-cyber-primary to-cyber-secondary rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                      <img 
-                        src={src} 
-                        alt={alt} 
-                        className="relative rounded-lg shadow-2xl border border-cyber-border w-full object-cover" 
-                        loading="lazy"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                      {alt && <p className="text-center text-sm text-cyber-muted mt-2 font-mono italic">{alt}</p>}
-                   </div>
-                )
-              }}
-              // Seguridad: renderizadores personalizados para enlaces e imágenes
-              components={{
-                a: ({ href, children, ...props }: any) => {
-                  const safeHref = href || '';
-                  // permitir mailto y urls válidas (http/https)
-                  if (safeHref.startsWith('mailto:') || isValidUrl(safeHref)) {
-                    const isExternal = safeHref.startsWith('http');
+
+                // Seguridad + responsive: imágenes solo de fuentes válidas, nunca más anchas que el contenedor
+                img: ({src, alt}) => {
+                  const safeSrc = src || '';
+                  if (isValidUrl(safeSrc) || safeSrc.startsWith('/') || safeSrc.startsWith('./')) {
                     return (
-                      <a
-                        href={safeHref}
-                        {...props}
-                        target={isExternal ? '_blank' : undefined}
-                        rel={isExternal ? 'noopener noreferrer' : undefined}
-                        className="text-cyber-primary hover:underline"
-                      >
-                        {children}
-                      </a>
+                      <div className="my-8 relative group max-w-full">
+                         <div className="absolute -inset-1 bg-gradient-to-r from-cyber-primary to-cyber-secondary rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                         <img
+                           src={safeSrc}
+                           alt={alt}
+                           className="relative rounded-lg shadow-2xl border border-cyber-border w-full max-w-full h-auto object-contain"
+                           loading="lazy"
+                           onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                         />
+                         {alt && <p className="text-center text-sm text-cyber-muted mt-2 font-mono italic">{alt}</p>}
+                      </div>
                     );
                   }
 
-                  // enlaces no seguros -> renderizar texto sin enlace
-                  return <span className="text-cyber-muted">{children}</span>;
-                },
-                img: ({src, alt}) => (
-                   (() => {
-                     const safeSrc = src || '';
-                     // permitir solo http/https o relative paths, evitar javascript: o data: URIs except images
-                     if (isValidUrl(safeSrc) || safeSrc.startsWith('/') || safeSrc.startsWith('./')) {
-                       return (
-                         <div className="my-8 relative group">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-cyber-primary to-cyber-secondary rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                            <img 
-                              src={safeSrc} 
-                              alt={alt} 
-                              className="relative rounded-lg shadow-2xl border border-cyber-border w-full object-contain" 
-                              loading="lazy"
-                              onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                            />
-                            {alt && <p className="text-center text-sm text-cyber-muted mt-2 font-mono italic">{alt}</p>}
-                         </div>
-                       );
-                     }
-
-                     // fuente no segura -> mostrar alt/placeholder
-                     return <p className="text-cyber-muted">[Imagen no disponible]</p>;
-                   })()
-                ),
+                  // fuente no segura -> mostrar placeholder
+                  return <p className="text-cyber-muted">[Imagen no disponible]</p>;
+                }
               }}
             >
               {post.content}
@@ -291,4 +274,3 @@ export function Post() {
     </motion.article>
   );
 }
-
