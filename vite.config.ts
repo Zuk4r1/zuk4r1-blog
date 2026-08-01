@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     open: true,
     headers: {
         // Cabeceras de seguridad para el servidor de desarrollo y producción (útiles localmente)
-        'Content-Security-Policy': "default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; worker-src 'self' blob:; connect-src 'self' ws: wss: http://localhost:3000 http://127.0.0.1:3000; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+        'Content-Security-Policy': "default-src 'self' https:; script-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; worker-src 'self' blob:; connect-src 'self' ws: wss: http://localhost:3000 http://127.0.0.1:3000; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
         'X-Frame-Options': 'DENY',
         'X-Content-Type-Options': 'nosniff',
         'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -46,7 +46,7 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
+          react: ['react', 'react-dom'],
           ui: ['framer-motion', 'lucide-react', 'sonner'],
           markdown: ['react-markdown', 'remark-gfm', 'rehype-sanitize', 'react-syntax-highlighter'],
           particles: ['react-particles', 'tsparticles']
