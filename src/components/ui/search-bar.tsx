@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from '@/lib/router';
 import { Search, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useSearch } from '@/hooks/use-search';
@@ -11,6 +12,7 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ placeholder = "BUSCAR EN EL SISTEMA...", onSearch }: SearchBarProps) {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -61,7 +63,7 @@ export function SearchBar({ placeholder = "BUSCAR EN EL SISTEMA...", onSearch }:
     e.preventDefault();
     if (query.trim() && results.length > 0) {
       // Navegar al primer resultado
-      window.location.href = `/post/${results[0].post.id}`;
+      navigate(`/post/${results[0].post.id}`);
       setIsFocused(false);
     }
   };
