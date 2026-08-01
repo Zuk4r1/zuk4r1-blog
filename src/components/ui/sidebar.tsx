@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from '@/lib/router';
 import { Home, Tags, FileText, User, Github, Mail, Linkedin, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import perfil from '@/assets/perfil.png';
@@ -61,12 +61,7 @@ export function Sidebar() {
                 <li key={item.name}>
                   <NavLink
                     to={item.href}
-                    className={({ isActive }) =>
-                      `flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 relative overflow-hidden group `
-                        + (isActive
-                          ? 'text-cyber-primary border border-cyber-primary/40 bg-cyber-primary/10 shadow-[0_0_12px_rgba(0,255,159,0.15)] translate-x-1'
-                          : 'text-cyber-text hover:text-cyber-primary hover:bg-cyber-primary/5 hover:translate-x-1 hover:border hover:border-cyber-primary/20')
-                    }
+                    className={`${"flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 relative overflow-hidden group"} ${item.href === window.location.pathname ? 'text-cyber-primary border border-cyber-primary/40 bg-cyber-primary/10 shadow-[0_0_12px_rgba(0,255,159,0.15)] translate-x-1' : 'text-cyber-text hover:text-cyber-primary hover:bg-cyber-primary/5 hover:translate-x-1 hover:border hover:border-cyber-primary/20'}`}
                   >
                     <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-cyber-primary opacity-0 transition-all duration-300 group-hover:opacity-100 group-[.active]:opacity-100"></div>
                     <Icon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
@@ -181,12 +176,7 @@ export function SidebarOverlay({ onClose }: { onClose: () => void }) {
                   >
                     <NavLink
                       to={item.href}
-                      className={({ isActive }) =>
-                        `flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 border ` +
-                        (isActive
-                          ? 'bg-cyber-primary/10 text-cyber-primary border-cyber-primary/40 shadow-neon-sm'
-                          : 'border-transparent text-cyber-text hover:bg-cyber-primary/5 hover:text-cyber-primary hover:border-cyber-primary/20')
-                      }
+                      className={`${"flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 border"} ${item.href === window.location.pathname ? 'bg-cyber-primary/10 text-cyber-primary border-cyber-primary/40 shadow-neon-sm' : 'border-transparent text-cyber-text hover:bg-cyber-primary/5 hover:text-cyber-primary hover:border-cyber-primary/20'}`}
                       onClick={onClose}
                     >
                       <Icon className="h-5 w-5" />

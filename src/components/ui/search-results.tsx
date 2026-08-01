@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SearchResult } from '@/hooks/use-search';
 import { Calendar, Clock, FileText, ChevronRight } from 'lucide-react';

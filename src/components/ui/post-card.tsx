@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router';
 import { motion } from 'framer-motion';
 import { Clock, Calendar, ArrowRight } from 'lucide-react';
 import { memo } from 'react';
