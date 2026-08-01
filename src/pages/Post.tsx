@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from '@/lib/router';
 import { getPostById, Post as PostType } from '@/lib/posts';
 import { NotFound } from './NotFound';
 import ReactMarkdown from 'react-markdown';
@@ -17,7 +17,6 @@ export function Post() {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = React.useState<PostType | null>(null);
   const [loading, setLoading] = React.useState(true);
-  const navigate = useNavigate();
 
   useSEO({
     title: post ? post.title : 'Cargando...',
@@ -151,7 +150,7 @@ export function Post() {
                 attributes: {
                   ...defaultSchema.attributes,
                   code: [...(defaultSchema.attributes?.code || []), 'className'],
-                  span: [...(defaultSchema.attributes?.span || []), 'className', 'style'],
+                  span: [...(defaultSchema.attributes?.span || []), 'className'],
                   img: [...(defaultSchema.attributes?.img || []), 'className', 'alt', 'src', 'width', 'height'],
                 }
               }]]}
@@ -207,24 +206,6 @@ export function Post() {
                     </code>
                   );
                 },
-                img: ({src, alt}) => (
-                   <div className="my-8 relative group">
-                      <div className="absolute -inset-1 bg-gradient-to-r from-cyber-primary to-cyber-secondary rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                      <img 
-                        src={src} 
-                        alt={alt} 
-                        className="relative rounded-lg shadow-2xl border border-cyber-border w-full object-cover" 
-                        loading="lazy"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                      {alt && <p className="text-center text-sm text-cyber-muted mt-2 font-mono italic">{alt}</p>}
-                   </div>
-                )
-              }}
-              // Seguridad: renderizadores personalizados para enlaces e imágenes
-              components={{
                 a: ({ href, children, ...props }: any) => {
                   const safeHref = href || '';
                   // permitir mailto y urls válidas (http/https)
@@ -246,30 +227,28 @@ export function Post() {
                   // enlaces no seguros -> renderizar texto sin enlace
                   return <span className="text-cyber-muted">{children}</span>;
                 },
-                img: ({src, alt}) => (
-                   (() => {
-                     const safeSrc = src || '';
-                     // permitir solo http/https o relative paths, evitar javascript: o data: URIs except images
-                     if (isValidUrl(safeSrc) || safeSrc.startsWith('/') || safeSrc.startsWith('./')) {
-                       return (
-                         <div className="my-8 relative group">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-cyber-primary to-cyber-secondary rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                            <img 
-                              src={safeSrc} 
-                              alt={alt} 
-                              className="relative rounded-lg shadow-2xl border border-cyber-border w-full object-contain" 
-                              loading="lazy"
-                              onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                            />
-                            {alt && <p className="text-center text-sm text-cyber-muted mt-2 font-mono italic">{alt}</p>}
-                         </div>
-                       );
-                     }
+                img: ({src, alt}) => {
+                  const safeSrc = src || '';
+                  if (isValidUrl(safeSrc) || safeSrc.startsWith('/') || safeSrc.startsWith('./')) {
+                    return (
+                      <div className="my-8 relative group">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-cyber-primary to-cyber-secondary rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                        <img
+                          src={safeSrc}
+                          alt={alt}
+                          className="relative rounded-lg shadow-2xl border border-cyber-border w-full object-contain"
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                        {alt && <p className="text-center text-sm text-cyber-muted mt-2 font-mono italic">{alt}</p>}
+                      </div>
+                    );
+                  }
 
-                     // fuente no segura -> mostrar alt/placeholder
-                     return <p className="text-cyber-muted">[Imagen no disponible]</p>;
-                   })()
-                ),
+                  return <p className="text-cyber-muted">[Imagen no disponible]</p>;
+                }
               }}
             >
               {post.content}
@@ -280,7 +259,7 @@ export function Post() {
         {/* Footer Decoration */}
         <div className="mt-12 pt-6 border-t border-cyber-border/30 flex justify-start items-center">
            <button
-             onClick={() => navigate(-1)}
+             onClick={() => window.history.back()}
              className="inline-flex items-center gap-2 text-cyber-muted hover:text-cyber-primary transition-colors font-mono text-sm"
            >
              <ArrowLeft className="h-4 w-4" />

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link } from '@/lib/router';
 import { getPostsByTag, Post as PostType } from '@/lib/posts';
 import { usePostsSubscription } from '@/hooks/use-posts';
 import { sanitizeTag } from '@/utils/sanitize';
