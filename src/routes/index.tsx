@@ -1,6 +1,5 @@
 import { AnimatePresence } from 'framer-motion';
-import { lazy, Suspense, ReactNode, useCallback, useEffect, useState } from 'react';
-import { normalizePath, RouterProvider } from '@/lib/router';
+import { lazy, Suspense, ReactNode } from 'react';
 
 // Lazy loading de páginas para optimizar bundle inicial
 const Index = lazy(() => import('@/pages/Index').then(m => ({ default: m.Index })));
@@ -82,44 +81,16 @@ function matchRoute(path: string) {
   return { route: fallbackRoute, params: {} };
 }
 
-export function Routes() {
-  const [path, setPath] = useState(() => normalizePath(window.location.pathname));
+export { matchRoute };
 
-  useEffect(() => {
-    const handlePopState = () => {
-      setPath(normalizePath(window.location.pathname));
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  const navigate = useCallback((to: string, replace = false) => {
-    const nextPath = normalizePath(to);
-    setPath((currentPath) => {
-      if (nextPath === currentPath) {
-        return currentPath;
-      }
-
-      if (replace) {
-        window.history.replaceState(null, '', nextPath);
-      } else {
-        window.history.pushState(null, '', nextPath);
-      }
-
-      return nextPath;
-    });
-  }, []);
-
-  const { route, params } = matchRoute(path);
+export function Routes({ path }: { path: string }) {
+  const { route } = matchRoute(path);
 
   return (
-    <RouterProvider path={path} params={params} navigate={navigate}>
-      <AnimatePresence mode="wait">
-        <Suspense fallback={<PageLoader />}>
-          <div key={path}>{route.element}</div>
-        </Suspense>
-      </AnimatePresence>
-    </RouterProvider>
+    <AnimatePresence mode="wait">
+      <Suspense fallback={<PageLoader />}>
+        <div key={path}>{route.element}</div>
+      </Suspense>
+    </AnimatePresence>
   );
 }
