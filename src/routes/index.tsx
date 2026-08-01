@@ -1,6 +1,6 @@
-import { Routes as RouterRoutes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { lazy, Suspense, ReactNode } from 'react';
+import { lazy, Suspense, ReactNode, useCallback, useEffect, useState } from 'react';
+import { normalizePath, RouterProvider } from '@/lib/router';
 
 // Lazy loading de páginas para optimizar bundle inicial
 const Index = lazy(() => import('@/pages/Index').then(m => ({ default: m.Index })));
@@ -27,20 +27,99 @@ function PageLoader(): ReactNode {
   );
 }
 
+type RouteEntry = {
+  path: string;
+  element: ReactNode;
+};
+
+const routes: RouteEntry[] = [
+  { path: '/', element: <Index /> },
+  { path: '/about', element: <About /> },
+  { path: '/content', element: <Content /> },
+  { path: '/tags', element: <Tags /> },
+  { path: '/tags/:tagName', element: <TagPosts /> },
+  { path: '/post/:id', element: <Post /> },
+  { path: '*', element: <NotFound /> },
+];
+
+function matchRoute(path: string) {
+  const pathSegments = path === '/' ? [] : path.slice(1).split('/');
+  const fallbackRoute = routes.find((route) => route.path === '*')!;
+
+  for (const route of routes) {
+    if (route.path === '*') {
+      continue;
+    }
+
+    const routeSegments = route.path === '/' ? [] : route.path.slice(1).split('/');
+    if (routeSegments.length !== pathSegments.length) {
+      continue;
+    }
+
+    const params: Record<string, string> = {};
+    let match = true;
+
+    for (let index = 0; index < routeSegments.length; index += 1) {
+      const routeSegment = routeSegments[index];
+      const pathSegment = pathSegments[index];
+
+      if (routeSegment.startsWith(':')) {
+        params[routeSegment.slice(1)] = decodeURIComponent(pathSegment);
+        continue;
+      }
+
+      if (routeSegment !== pathSegment) {
+        match = false;
+        break;
+      }
+    }
+
+    if (match) {
+      return { route, params };
+    }
+  }
+
+  return { route: fallbackRoute, params: {} };
+}
+
 export function Routes() {
+  const [path, setPath] = useState(() => normalizePath(window.location.pathname));
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setPath(normalizePath(window.location.pathname));
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigate = useCallback((to: string, replace = false) => {
+    const nextPath = normalizePath(to);
+    setPath((currentPath) => {
+      if (nextPath === currentPath) {
+        return currentPath;
+      }
+
+      if (replace) {
+        window.history.replaceState(null, '', nextPath);
+      } else {
+        window.history.pushState(null, '', nextPath);
+      }
+
+      return nextPath;
+    });
+  }, []);
+
+  const { route, params } = matchRoute(path);
+
   return (
-    <AnimatePresence mode="wait">
-      <Suspense fallback={<PageLoader />}>
-        <RouterRoutes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/content" element={<Content />} />
-          <Route path="/tags" element={<Tags />} />
-          <Route path="/tags/:tagName" element={<TagPosts />} />
-          <Route path="/post/:id" element={<Post />} />
-          <Route path="*" element={<NotFound />} />
-        </RouterRoutes>
-      </Suspense>
-    </AnimatePresence>
+    <RouterProvider path={path} params={params} navigate={navigate}>
+      <AnimatePresence mode="wait">
+        <Suspense fallback={<PageLoader />}>
+          <div key={path}>{route.element}</div>
+        </Suspense>
+      </AnimatePresence>
+    </RouterProvider>
   );
 }
