@@ -17,10 +17,23 @@ function parseFrontmatter(content) {
 
   const frontmatter = match[1];
   const dateMatch = frontmatter.match(/date:\s*["']?([^"'\n]+)["']?/);
-  
+
   return {
-    date: dateMatch ? dateMatch[1] : null
+    date: dateMatch ? dateMatch[1].trim() : null,
   };
+}
+
+function formatUrl(loc, { lastmod = null, changefreq = 'monthly', priority = '0.8' } = {}) {
+  return [
+    '  <url>',
+    `    <loc>${SITE_URL}${loc}</loc>`,
+    lastmod ? `    <lastmod>${lastmod}</lastmod>` : null,
+    `    <changefreq>${changefreq}</changefreq>`,
+    `    <priority>${priority}</priority>`,
+    '  </url>',
+  ]
+    .filter(Boolean)
+    .join('\n');
 }
 
 export function generateSitemap() {
@@ -37,11 +50,18 @@ export function generateSitemap() {
   }
 
   const files = fs.readdirSync(POSTS_DIR).filter(file => file.endsWith('.md'));
-  
-  const urls = files.map(file => {
+
+  const staticUrls = [
+    { loc: '/', changefreq: 'weekly', priority: '1.0' },
+    { loc: '/about', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/content', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/tags', changefreq: 'weekly', priority: '0.8' },
+  ];
+
+  const postUrls = files.map(file => {
     const content = fs.readFileSync(path.join(POSTS_DIR, file), 'utf-8');
     const data = parseFrontmatter(content);
-    
+
     // Lógica de ID idéntica a la app (src/lib/posts.ts)
     const baseName = file.replace(/\.md$/i, '');
     const parts = baseName.split('-');
@@ -49,7 +69,7 @@ export function generateSitemap() {
     const [yyyy, mm, dd] = last3;
     const hasDateInName = /^\d{4}$/.test(yyyy || '') && /^\d{2}$/.test(mm || '') && /^\d{2}$/.test(dd || '');
     const rawId = hasDateInName ? parts.slice(0, -3).join('-') : baseName;
-    
+
     const id = rawId
       .toLowerCase()
       .normalize('NFD')
@@ -57,23 +77,27 @@ export function generateSitemap() {
       .replace(/[^a-z0-9-]+/g, '-')
       .replace(/^-+|-+$/g, '');
 
-    return `
-  <url>
-    <loc>${SITE_URL}/post/${id}</loc>
-    <lastmod>${data.date || new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>`;
+    const lastmod = data.date && /^\d{4}-\d{2}-\d{2}$/.test(data.date)
+      ? data.date
+      : new Date().toISOString().split('T')[0];
+
+    return {
+      loc: `/post/${id}`,
+      lastmod,
+      changefreq: 'monthly',
+      priority: '0.8',
+    };
   });
 
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${SITE_URL}/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>${urls.join('')}
-</urlset>`;
+  const urls = [...staticUrls, ...postUrls]
+    .sort((a, b) => a.loc.localeCompare(b.loc))
+    .map(entry => formatUrl(entry.loc, entry));
+
+  const sitemap = ['<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...urls,
+    '</urlset>',
+  ].join('\n');
 
   fs.writeFileSync(path.join(PUBLIC_DIR, 'sitemap.xml'), sitemap);
   console.log(`Sitemap generado con ${urls.length} posts en ${path.join(PUBLIC_DIR, 'sitemap.xml')}`);
