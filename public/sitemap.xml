@@ -6,6 +6,22 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://www.blog-cyber.co/about</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blog-cyber.co/content</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blog-cyber.co/post/agente-ia-incidente-ciberseguridad</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.blog-cyber.co/post/alerta-hackeo-hacienda</loc>
     <lastmod>2026-02-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -43,7 +59,7 @@
   </url>
   <url>
     <loc>https://www.blog-cyber.co/post/enumeracion-avanzada-con-nmap</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-03-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -132,6 +148,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.blog-cyber.co/post/nexoshop</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.blog-cyber.co/post/pen-testing-web</loc>
     <lastmod>2025-11-03</lastmod>
     <changefreq>monthly</changefreq>
@@ -145,7 +167,7 @@
   </url>
   <url>
     <loc>https://www.blog-cyber.co/post/por-que-no-encuentras-bugs</loc>
-    <lastmod>2026-03-17</lastmod>
+    <lastmod>2026-03-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -158,6 +180,12 @@
   <url>
     <loc>https://www.blog-cyber.co/post/seguridad-en-redes-wifi</loc>
     <lastmod>2025-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blog-cyber.co/post/self-svg-xss-ato-bot</loc>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -183,6 +211,11 @@
     <loc>https://www.blog-cyber.co/post/vpn-no-logs-en-hacking-etico-2026-01-09</loc>
     <lastmod>2026-01-09</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.blog-cyber.co/tags</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>
