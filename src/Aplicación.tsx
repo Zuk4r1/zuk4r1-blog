@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Sidebar, SidebarOverlay } from '@/components/ui/sidebar';
@@ -25,21 +24,23 @@ export default function Aplicación() {
     setHeaderHeight();
 
     // ResizeObserver para cambios dinámicos en el header (por ejemplo menú apilado)
-    let ro: ResizeObserver | null = null;
-    if (headerRef.current && (window as any).ResizeObserver) {
-      ro = new (window as any).ResizeObserver(() => setHeaderHeight());
-      ro.observe(headerRef.current);
+    const element = headerRef.current;
+    const ro = element && (window as any).ResizeObserver
+      ? new (window as any).ResizeObserver(() => setHeaderHeight())
+      : null;
+
+    if (ro && element) {
+      ro.observe(element);
     }
 
     window.addEventListener('resize', setHeaderHeight);
     return () => {
       window.removeEventListener('resize', setHeaderHeight);
-      if (ro && headerRef.current) ro.unobserve(headerRef.current);
+      if (ro && element) ro.unobserve(element);
     };
   }, [open]);
 
   return (
-    <BrowserRouter>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
           <div className="min-h-screen bg-cyber-background text-cyber-text relative overflow-x-hidden selection:bg-cyber-primary/30 selection:text-cyber-primary">
             
@@ -98,6 +99,5 @@ export default function Aplicación() {
             className: 'font-mono'
           }} />
         </ThemeProvider>
-      </BrowserRouter>
   );
 }
