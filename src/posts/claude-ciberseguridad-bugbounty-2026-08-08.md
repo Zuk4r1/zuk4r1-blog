@@ -24,15 +24,25 @@ La clave no está solamente en utilizar el modelo, sino en darle un contexto de 
 Durante una investigación se acumula una gran cantidad de información:
 
 🟢 Subdominios.
+
 🟢 Endpoints.
+
 🟢 Requests y responses.
+
 🟢 Archivos JavaScript.
+
 🟢 Tecnologías.
+
 🟢 Parámetros.
+
 🟢 Flujos de autenticación.
+
 🟢 Posibles problemas de autorización.
+
 🟢 Hallazgos descartados.
+
 🟢 Evidencias.
+
 🟢 Hipótesis pendientes de validar.
 
 Un LLM puede ayudar a conectar toda esta información y convertirla en una metodología de trabajo más organizada.
@@ -40,14 +50,23 @@ Un LLM puede ayudar a conectar toda esta información y convertirla en una metod
 Claude puede utilizarse como apoyo para:
 
 🟢 Analizar JavaScript.
+
 🟢 Revisar APIs.
+
 🟢 Analizar mecanismos de autenticación.
+
 🟢 Revisar controles de autorización.
+
 🟢 Identificar posibles problemas de lógica de negocio.
+
 🟢 Analizar configuraciones.
+
 🟢 Revisar evidencias.
+
 🟢 Crear scripts auxiliares para entornos autorizados.
+
 🟢 Organizar la investigación.
+
 🟢 Preparar reportes técnicos.
 
 La validación final, especialmente cuando se trata de una vulnerabilidad, debe realizarse de forma controlada.
