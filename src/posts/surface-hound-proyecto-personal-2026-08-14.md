@@ -28,13 +28,19 @@ Mientras navegas normalmente, la herramienta captura tráfico de la aplicación,
 
 Es decir, la extensión intenta poner el foco en lo útil:
 
-🟢 qué endpoints existen,
-🟢 qué parámetros se usan,
-🟢 si hay identificadores sensibles,
-🟢 si existen relaciones entre recursos,
-🟢 si se están exponiendo secretos, tokens o configuraciones frágiles,
-🟢 si aparecen riesgos de CORS, CSP, GraphQL o IDOR,
-🟢 y si ese análisis puede pasar directamente a un flujo de validación más avanzado.
+🟢 Qué endpoints existen.
+
+🟢 Qué parámetros se usan.
+
+🟢 Si hay identificadores sensibles.
+
+🟢 Si existen relaciones entre recursos.
+
+🟢 Si se están exponiendo secretos, tokens o configuraciones frágiles.
+
+🟢 Si aparecen riesgos de CORS, CSP, GraphQL o IDOR.
+
+🟢 Si ese análisis puede pasar directamente a un flujo de validación más avanzado.
 
 > La intención es clara: llevar una parte del reconocimiento a la misma actividad de "cazar" en el navegador, sin romper el flujo de trabajo.
 
@@ -44,12 +50,18 @@ Es decir, la extensión intenta poner el foco en lo útil:
 
 En Bug Bounty y pentesting, una gran parte del tiempo se consume en tareas repetitivas:
 
-🟢 revisar requests,
-🟢 identificar parámetros relevantes,
-🟢 mapear la estructura de rutas,
-🟢 detectar patrones de recursos y relaciones,
-🟢 agrupar endpoints por entidad,
-🟢 clasificar posibles vulnerabilidades,
+🟢 revisar requests.
+
+🟢 identificar parámetros relevantes.
+
+🟢 mapear la estructura de rutas.
+
+🟢 detectar patrones de recursos y relaciones.
+
+🟢 agrupar endpoints por entidad.
+
+🟢 clasificar posibles vulnerabilidades.
+
 🟢 explorar si un comportamiento es más bien ruido o una hipótesis real.
 
 Muchos de esos pasos pueden automatizarse parcialmente, especialmente durante la fase pasiva. Con Surface Hound quise construir una herramienta que hiciera eso sin salir del navegador, manteniendo un enfoque orientado a la productividad y a la validación humana.
@@ -70,12 +82,18 @@ Además, los nodos pueden revelar el valor real de identificadores tipo `{id}` y
 
 La extensión lista cada request capturada con:
 
-🟢 método HTTP,
-🟢 URL completa,
-🟢 cantidad de apariciones,
-🟢 última hora observada,
-🟢 código de respuesta,
-🟢 si la request iba autenticada,
+🟢 método HTTP.
+
+🟢 URL completa.
+
+🟢 cantidad de apariciones.
+
+🟢 última hora observada.
+
+🟢 código de respuesta.
+
+🟢 si la request iba autenticada.
+
 🟢 y detalles de la respuesta y del script que la disparó.
 
 Esto reduce enormemente el tiempo de contextualización cuando se busca un endpoint sospechoso.
@@ -84,14 +102,22 @@ Esto reduce enormemente el tiempo de contextualización cuando se busca un endpo
 
 Se analizan los parámetros observados y se thematizan hipótesis como:
 
-🟢 IDOR,
-🟢 SSRF,
-🟢 Open Redirect,
-🟢 LFI,
-🟢 SQLi,
-🟢 SSTI,
-🟢 Mass Assignment,
-🟢 XSS,
+🟢 IDOR.
+
+🟢 SSRF.
+
+🟢 Open Redirect.
+
+🟢 LFI.
+
+🟢 SQLi.
+
+🟢 SSTI.
+
+🟢 Mass Assignment.
+
+🟢 XSS.
+
 🟢 Command Injection.
 
 La clave aquí es que no se trata de una simple lista: cada parámetro se evalúa con contexto y puede sumar evidencia de si esa hipótesis es realmente plausible.
@@ -102,10 +128,14 @@ Uno de los módulos que más me interesó fue la detección pasiva de IDOR.
 
 El sistema combina señales como:
 
-🟢 si el identificador es numérico o UUID,
-🟢 si aparece en la ruta o en query params,
-🟢 si el recurso es identificable,
-🟢 cuántos valores distintos se observan,
+🟢 si el identificador es numérico o UUID.
+
+🟢 si aparece en la ruta o en query params.
+
+🟢 si el recurso es identificable.
+
+🟢 cuántos valores distintos se observan.
+
 🟢 y si se reflejan en la respuesta JSON.
 
 Esto permite generar un porcentaje de confianza en vez de marcarlo todo como vulnerable por nombre.
@@ -118,9 +148,12 @@ Cuando dos IDs aparecen juntos en la misma respuesta, la herramienta intenta enc
 
 Surface Hound también recoge y clasifica:
 
-🟢 JWT vistos en tráfico,
-🟢 tokens y secretos expuestos en JS,
-🟢 hallazgos de CORS/CSP,
+🟢 JWT vistos en tráfico.
+
+🟢 tokens y secretos expuestos en JS.
+
+🟢 hallazgos de CORS/CSP.
+
 🟢 señales de seguridad frágil como headers problemáticos o configuraciones de frontend mal definidas.
 
 Este tipo de información suele ser muy útil para priorizar lo importante antes de entrar en validaciones activas.
@@ -129,9 +162,12 @@ Este tipo de información suele ser muy útil para priorizar lo importante antes
 
 El proyecto también está pensado para detectar flujos modernos que muchas herramientas tradicionales no tienen en cuenta bien:
 
-🟢 GraphQL por forma del body, no solo por URL,
-🟢 batching y operaciones mutantes,
-🟢 introspection detectada,
+🟢 GraphQL por forma del body, no solo por URL.
+
+🟢 batching y operaciones mutantes.
+
+🟢 introspection detectada.
+
 🟢 y tráfico WebSocket con mensajes en vivo.
 
 Esto es muy valioso porque muchas aplicaciones actuales no exponen toda su API como REST simple y se puede perder información importante si uno se queda solo con la capa clásica.
@@ -152,11 +188,15 @@ Lo más valioso de Surface Hound no es solo que detecte cosas, sino que organiza
 
 La lógica es:
 
-1. observar sin generar ruido innecesario,
-2. detectar patrones y correlaciones,
-3. priorizar hipótesis de forma razonada,
-4. preparar validaciones puntuales,
-5. llevar evidencia en un reporte limpio.
+🟢 observar sin generar ruido innecesario.
+   
+🟢 detectar patrones y correlaciones.
+   
+🟢 priorizar hipótesis de forma razonada.
+   
+🟢 preparar validaciones puntuales.
+
+🟢 llevar evidencia en un reporte limpio.
 
 En otras palabras, la herramienta intenta convertir la observación pasiva en un sistema de asistencia para la investigación, no en una caja negra que supuestamente "resuelve" la vulnerabilidad sola.
 
@@ -166,14 +206,22 @@ En otras palabras, la herramienta intenta convertir la observación pasiva en un
 
 Una de las decisiones más útiles del proyecto fue permitir un puente opcional hacia herramientas CLI locales, como:
 
-🟢 nuclei,
-🟢 httpx,
-🟢 katana,
-🟢 arjun,
-🟢 dalfox,
-🟢 ffuf,
-🟢 dnsx,
-🟢 gau,
+🟢 nuclei.
+
+🟢 httpx.
+
+🟢 katana.
+
+🟢 arjun.
+
+🟢 dalfox.
+
+🟢 ffuf.
+
+🟢 dnsx.
+
+🟢 gau.
+
 🟢 subfinder.
 
 Esto permite que lo detectado en la extensión pase a un flujo de validación avanzada sin salir de la fase de investigación. El usuario puede ver exactamente qué comando va a ejecutarse y decidir si quiere correrlo personalmente o dejar que la herramienta lo haga desde el agente nativo.
@@ -187,17 +235,22 @@ Este tipo de integración ayuda mucho porque no se trata de hacer un análisis a
 El proyecto está pensado para cargar directamente como extensión:
 
 🟢 Chrome / Chromium / Brave: cargar la carpeta `chrome/` en modo desarrollador.
+
 🟢 Firefox: cargar el archivo `firefox/manifest.json` como complemento temporal.
 
 Además, el proyecto incluye un agente nativo opcional para integrar el puente con herramientas de CLI en local.
 
 El flujo recomendado es:
 
-1. navegar un objetivo dentro de scope,
-2. dejar que la extensión capture la superficie de ataque,
-3. revisar el mapa y los endpoints,
-4. revisar candidatos a IDOR, GraphQL o secretos,
-5. preparar el reporte y exportarlo cuando termine la sesión.
+🟢 navegar un objetivo dentro de scope.
+
+🟢 dejar que la extensión capture la superficie de ataque.
+
+🟢 revisar el mapa y los endpoints.
+
+🟢 revisar candidatos a IDOR, GraphQL o secretos.
+
+🟢 preparar el reporte y exportarlo cuando termine la sesión.
 
 ---
 
@@ -211,12 +264,17 @@ La idea central es simple:
 
 Además, el proyecto me ayudó a trabajar varias cosas a la vez:
 
-🟢 investigación de vulnerabilidades,
-🟢 diseño de UX para análisis técnico,
-🟢 arquitectura de extensiones de navegador,
-🟢 automatización de observación,
-🟢 ingeniería de detección heurística,
-🟢 y pensamiento orientado a la utilidad real para un auditor.
+🟢 investigación de vulnerabilidades.
+
+🟢 diseño de UX para análisis técnico.
+
+🟢 arquitectura de extensiones de navegador.
+
+🟢 automatización de observación.
+
+🟢 ingeniería de detección heurística.
+
+🟢 pensamiento orientado a la utilidad real para un auditor.
 
 Ese tipo de proyectos suelen ser muy formativos, porque te obligan a pensar no solo en la detección de vulnerabilidades, sino también en cómo presentarlas, cómo priorizarlas, cómo contextualizarlas y cómo evitar falsos positivos con una lógica sensata.
 
@@ -236,7 +294,8 @@ Si te interesa el tema de Bug Bounty, reconocimiento pasivo, seguridad web y her
 
 ## Enlaces
 
-🟢 🐙 [https://github.com/Zuk4r1/surface-hound.git](GitHub)
-🟢 ⚖️ [https://github.com/Zuk4r1/surface-hound/blob/main/LICENSE](License)
+🟢 🐙 [Github](https://github.com/Zuk4r1/surface-hound.git)
 
-Si te interesa, en próximas publicaciones puedo contar más detalles sobre la arquitectura interna o tambien me puedes escribir al [investigacion1956@gmail.com](correo), los módulos de detección, y las decisiones de diseño que tomé para construir la extensión.
+🟢 ⚖️ [License](https://github.com/Zuk4r1/surface-hound/blob/main/LICENSE)
+
+Si te interesa, en próximas publicaciones puedo contar más detalles sobre la arquitectura interna o tambien me puedes escribir al [correo](investigacion1956@gmail.com), los módulos de detección, y las decisiones de diseño que tomé para construir la extensión.
