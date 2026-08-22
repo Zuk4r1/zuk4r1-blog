@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   plugins: [react()],
   server: {
     port: 3000,
@@ -46,10 +46,8 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          react: ['react', 'react-dom'],
           ui: ['framer-motion', 'lucide-react', 'sonner'],
-          markdown: ['react-markdown', 'remark-gfm', 'rehype-sanitize', 'react-syntax-highlighter'],
-          particles: ['react-particles', 'tsparticles']
+          markdown: ['react-markdown', 'remark-gfm', 'rehype-sanitize', 'react-syntax-highlighter']
         }
       }
     }
