@@ -3,6 +3,26 @@
 @tailwind utilities;
 
 @layer base {
+  /* Guard global anti-overflow horizontal.
+     Sin esto, si CUALQUIER elemento hijo (título largo, bloque de código,
+     tabla, palabra sin cortar) excede el ancho del viewport en cualquier
+     breakpoint, html/body se ensanchan y el documento entero queda con
+     scroll horizontal. Como el header es position:fixed, éste se queda
+     anclado al viewport mientras el resto del contenido se desplaza,
+     produciendo texto y tarjetas "cortadas" en el lado derecho. */
+  html, body, #root {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  /* Los hijos de flex/grid tienen min-width:auto por defecto, lo que les
+     impide encoger por debajo del ancho de su contenido y es la causa más
+     común de overflow horizontal en layouts responsive. Se resetea de forma
+     global porque es seguro para elementos que no son flex/grid items. */
+  * {
+    min-width: 0;
+  }
+
   :root {
     --background: 0 0% 2%;
     --foreground: 0 0% 88%;
