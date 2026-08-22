@@ -9,8 +9,9 @@ export default defineConfig(() => ({
     port: 3000,
     open: true,
     headers: {
-        // Cabeceras de seguridad para el servidor de desarrollo y producción (útiles localmente)
-        'Content-Security-Policy': "default-src 'self' https:; script-src 'self' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; worker-src 'self' blob:; connect-src 'self' ws: wss: http://localhost:3000 http://127.0.0.1:3000; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+        // Cabeceras de seguridad para el servidor de desarrollo (en producción las aplica vercel.json).
+        // ws:/wss:/localhost en connect-src son necesarios para el HMR de Vite en dev.
+        'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; worker-src 'self' blob:; connect-src 'self' ws: wss: http://localhost:3000 http://127.0.0.1:3000; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
         'X-Frame-Options': 'DENY',
         'X-Content-Type-Options': 'nosniff',
         'Referrer-Policy': 'strict-origin-when-cross-origin',
