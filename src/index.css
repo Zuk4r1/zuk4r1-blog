@@ -310,6 +310,65 @@
   hyphens: auto;
 }
 
+/* Tailwind resetea list-style a "none" por defecto (Preflight). Sin esto,
+   cualquier lista numerada (1. 2. 3.) o con viñetas (- * >) del markdown
+   de un post se renderiza sin ningún número ni marcador visible.
+   Se aplica sobre .markdown-body, por lo que cubre todos los posts,
+   antiguos y los que se publiquen a futuro, sin tocar cada .md. */
+.markdown-body ul,
+.markdown-body ol {
+  margin: 1rem 0 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+}
+
+.markdown-body ol {
+  list-style-type: decimal;
+}
+
+.markdown-body ul ul {
+  list-style-type: circle;
+  margin: 0.25rem 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-alpha;
+  margin: 0.25rem 0;
+}
+
+.markdown-body li {
+  margin: 0.4rem 0;
+  padding-left: 0.25rem;
+}
+
+.markdown-body li::marker {
+  color: #00ff9f;
+  font-weight: 700;
+}
+
+.markdown-body li > ul,
+.markdown-body li > ol {
+  margin-top: 0.4rem;
+}
+
+/* Blockquotes (> texto) tampoco tenían señalización visual propia */
+.markdown-body blockquote {
+  border-left: 4px solid #00ff9f;
+  background: rgba(0, 255, 159, 0.05);
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+  color: rgba(224, 224, 224, 0.9);
+}
+
+.markdown-body blockquote p {
+  margin: 0;
+}
+
 .readable-list {
   width: 100%;
   margin-left: auto;
