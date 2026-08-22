@@ -2,10 +2,18 @@ import { motion } from 'framer-motion';
 import { usePublishedPosts } from '@/hooks/use-posts';
 import { PostCard } from '@/components/ui/post-card';
 import { formatPostDate } from '@/lib/date';
+import { useSEO } from '@/hooks/use-seo';
 import { Sparkles } from 'lucide-react';
 
 export function Index() {
   const posts = usePublishedPosts();
+
+  useSEO({
+    title: 'Inicio',
+    description: 'Blog sobre ciberseguridad, hacking ético y tecnología. Tutoriales, guías y recursos para profesionales de la seguridad informática.',
+    url: window.location.href,
+    type: 'website',
+  });
 
   return (
     <motion.div

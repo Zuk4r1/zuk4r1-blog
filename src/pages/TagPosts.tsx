@@ -6,11 +6,22 @@ import { usePostsSubscription } from '@/hooks/use-posts';
 import { sanitizeTag } from '@/utils/sanitize';
 import { PostCard } from '@/components/ui/post-card';
 import { formatPostDate } from '@/lib/date';
+import { useSEO } from '@/hooks/use-seo';
 import { ArrowLeft } from 'lucide-react';
 
 export function TagPosts() {
   const { tagName } = useParams<{ tagName: string }>();
   const [posts, setPosts] = React.useState<PostType[]>([]);
+  const safeTagLabel = tagName ? sanitizeTag(tagName) : '';
+
+  useSEO({
+    title: safeTagLabel ? `Etiqueta: ${safeTagLabel}` : 'Etiqueta',
+    description: safeTagLabel
+      ? `Publicaciones de Zuk4r1 Blog etiquetadas con "${safeTagLabel}".`
+      : 'Publicaciones de Zuk4r1 Blog filtradas por etiqueta.',
+    url: window.location.href,
+    type: 'website',
+  });
 
   React.useEffect(() => {
     if (tagName) {

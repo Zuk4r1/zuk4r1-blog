@@ -4,6 +4,7 @@ import { getPublishedPosts, getPostsByTag, Post as PostType } from '@/lib/posts'
 import { usePostsSubscription } from '@/hooks/use-posts';
 import { PostCard } from '@/components/ui/post-card';
 import { parseDateLocal } from '@/lib/date';
+import { useSEO } from '@/hooks/use-seo';
 
 interface TagCount {
   name: string;
@@ -14,6 +15,13 @@ export function Tags() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
   const [tagCounts, setTagCounts] = useState<TagCount[]>([]);
+
+  useSEO({
+    title: 'Etiquetas',
+    description: 'Explora todos los artículos de Zuk4r1 Blog organizados por etiqueta: bug bounty, pentesting, herramientas y más.',
+    url: window.location.href,
+    type: 'website',
+  });
 
   const computeCounts = useCallback((publishedPosts: PostType[]) => {
     const map = new Map<string, number>();

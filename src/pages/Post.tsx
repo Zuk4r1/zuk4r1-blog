@@ -119,12 +119,13 @@ export function Post() {
             
             <div className="flex min-w-0 max-w-full flex-wrap gap-2">
               {post.tags.map((tag: string) => (
-                <span
+                <Link
                   key={tag}
-                  className="chip-3d chip-3d-sm max-w-full cursor-default break-words"
+                  to={`/tags/${tag}`}
+                  className="chip-3d chip-3d-sm max-w-full break-words hover:scale-105 transition-transform"
                 >
                   {tag}
-                </span>
+                </Link>
               ))}
             </div>
           </div>
@@ -208,7 +209,7 @@ export function Post() {
                     </code>
                   );
                 },
-                a: ({ href, children, ...props }: any) => {
+                a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { children?: React.ReactNode }) => {
                   const safeHref = href || '';
                   // permitir mailto y urls válidas (http/https)
                   if (safeHref.startsWith('mailto:') || isValidUrl(safeHref)) {

@@ -1,6 +1,14 @@
 import { motion } from 'framer-motion';
+import { useSEO } from '@/hooks/use-seo';
 
 export function About() {
+  useSEO({
+    title: 'Acerca de',
+    description: 'Conoce Zuk4r1 Blog: quién está detrás, el enfoque práctico en pentesting, bug bounty y ciberseguridad ofensiva, y a quién está dirigido.',
+    url: window.location.href,
+    type: 'website',
+  });
+
   return (
     <motion.div
       initial={{ opacity: 0 }}

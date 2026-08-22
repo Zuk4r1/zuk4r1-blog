@@ -2,9 +2,17 @@ import { motion } from 'framer-motion';
 import { usePublishedPosts } from '@/hooks/use-posts';
 import { PostCard } from '@/components/ui/post-card';
 import { formatPostDate } from '@/lib/date';
+import { useSEO } from '@/hooks/use-seo';
 
 export function Content() {
   const posts = usePublishedPosts();
+
+  useSEO({
+    title: 'Contenido',
+    description: 'Todos los artículos publicados hasta la fecha en Zuk4r1 Blog: ciberseguridad, bug bounty, hacking ético y desarrollo de herramientas.',
+    url: window.location.href,
+    type: 'website',
+  });
 
   return (
     <motion.div

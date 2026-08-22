@@ -1,7 +1,15 @@
 import { motion } from 'framer-motion';
 import { Link } from '@/lib/router';
+import { useSEO } from '@/hooks/use-seo';
 
 export function NotFound() {
+  useSEO({
+    title: '404 - Página no encontrada',
+    description: 'La página que buscas no existe o ha sido movida.',
+    url: window.location.href,
+    type: 'website',
+  });
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -12,7 +20,7 @@ export function NotFound() {
       <motion.h1
         initial={{ y: -20 }}
         animate={{ y: 0 }}
-        className="text-6xl font-bold text-primary mb-4"
+        className="text-6xl font-bold text-cyber-primary glow-text mb-4"
       >
         404
       </motion.h1>
@@ -21,7 +29,7 @@ export function NotFound() {
         initial={{ y: -20 }}
         animate={{ y: 0 }}
         transition={{ delay: 0.1 }}
-        className="text-2xl font-semibold text-foreground mb-6"
+        className="text-2xl font-semibold text-cyber-text mb-6"
       >
         Página No Encontrada
       </motion.h2>
@@ -30,7 +38,7 @@ export function NotFound() {
         initial={{ y: -20 }}
         animate={{ y: 0 }}
         transition={{ delay: 0.2 }}
-        className="text-muted-foreground mb-8"
+        className="text-cyber-muted mb-8"
       >
         La página que estás buscando no existe o ha sido movida.
       </motion.p>
@@ -42,7 +50,7 @@ export function NotFound() {
       >
         <Link
           to="/"
-          className="inline-block px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+          className="inline-block px-6 py-3 bg-cyber-primary text-cyber-background font-bold rounded-lg hover:bg-cyber-primary/90 transition-colors"
         >
           Volver al Inicio
         </Link>
