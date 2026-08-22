@@ -24,7 +24,12 @@ export function Content() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-white glow-text">Contenido</h1>
-        <p className="text-cyber-muted mt-3">Todos los articulos publicados hasta la fecha</p>
+        <div className="flex flex-wrap items-center gap-3 mt-3">
+          <p className="text-cyber-muted">Todos los articulos publicados hasta la fecha</p>
+          <span className="chip-3d chip-3d-sm font-mono">
+            {posts.length} {posts.length === 1 ? 'post' : 'posts'}
+          </span>
+        </div>
       </div>
 
       {/* Posts Grid en dos columnas */}
