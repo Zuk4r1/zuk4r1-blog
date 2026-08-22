@@ -145,9 +145,4 @@ export function NavLink({
   );
 }
 
-export function createRouterNavigate() {
-  const { navigate } = useRouter();
-  return navigate;
-}
-
 export { normalizePath };
