@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 
 export interface ReadingAchievement {
   id: string;
@@ -58,18 +58,37 @@ const ACHIEVEMENTS: ReadingAchievement[] = [
 
 export function useReadingProgress() {
   const [progress, setProgress] = useState<UserProgress>(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored
-      ? JSON.parse(stored)
-      : {
-          postsRead: 0,
-          totalReadTime: 0,
-          tags: {},
-          achievements: [],
-        };
+    const defaultProgress: UserProgress = {
+      postsRead: 0,
+      totalReadTime: 0,
+      tags: {},
+      achievements: [],
+    };
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) return defaultProgress;
+      const parsed = JSON.parse(stored);
+      // Validación básica de forma para evitar estados corruptos
+      if (
+        typeof parsed !== 'object' || parsed === null ||
+        typeof parsed.postsRead !== 'number' ||
+        typeof parsed.totalReadTime !== 'number' ||
+        typeof parsed.tags !== 'object' ||
+        !Array.isArray(parsed.achievements)
+      ) {
+        return defaultProgress;
+      }
+      return parsed as UserProgress;
+    } catch {
+      return defaultProgress;
+    }
   });
 
-  const checkAchievements = useCallback((currentProgress: UserProgress): ReadingAchievement[] => {
+  // Contador de posts leídos en la sesión actual (no persiste entre recargas),
+  // usado para el logro "Lector Rápido".
+  const sessionPostsReadRef = useRef(0);
+
+  const checkAchievements = useCallback((currentProgress: UserProgress, sessionPostsRead: number): ReadingAchievement[] => {
     const unlocked: Record<string, ReadingAchievement> = {};
 
     // Cargar logros ya desbloqueados
@@ -97,6 +116,11 @@ export function useReadingProgress() {
       unlocked['security-master'] = { ...ACHIEVEMENTS[3], unlockedAt: Date.now() };
     }
 
+    // Verificar "Lector Rápido"
+    if (sessionPostsRead >= 3 && !unlocked['speed-reader']) {
+      unlocked['speed-reader'] = { ...ACHIEVEMENTS[4], unlockedAt: Date.now() };
+    }
+
     // Verificar "Hacker Nocturno"
     const hour = new Date().getHours();
     if ((hour >= 22 || hour < 6) && !unlocked['night-hacker']) {
@@ -107,6 +131,7 @@ export function useReadingProgress() {
   }, [progress.achievements]);
 
   const recordPostRead = useCallback((tags: string[], readTimeMinutes: number) => {
+    sessionPostsReadRef.current += 1;
     setProgress((prev) => {
       const newProgress: UserProgress = {
         ...prev,
@@ -122,7 +147,7 @@ export function useReadingProgress() {
       });
 
       // Verificar y desbloquear logros
-      const newAchievements = checkAchievements(newProgress);
+      const newAchievements = checkAchievements(newProgress, sessionPostsReadRef.current);
       newProgress.achievements = newAchievements;
 
       // Guardar en localStorage
