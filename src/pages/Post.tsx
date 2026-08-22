@@ -6,12 +6,53 @@ import { NotFound } from './NotFound';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import bashLang from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
+import powershellLang from 'react-syntax-highlighter/dist/esm/languages/prism/powershell';
+import sqlLang from 'react-syntax-highlighter/dist/esm/languages/prism/sql';
+import markdownLang from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
+import pythonLang from 'react-syntax-highlighter/dist/esm/languages/prism/python';
+import javascriptLang from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';
+import typescriptLang from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
+import jsonLang from 'react-syntax-highlighter/dist/esm/languages/prism/json';
+import yamlLang from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
+import markupLang from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
+import httpLang from 'react-syntax-highlighter/dist/esm/languages/prism/http';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Calendar, Clock, ArrowLeft, Terminal } from 'lucide-react';
 import { parseDateLocal } from '@/lib/date';
 import { useSEO } from '@/hooks/use-seo';
 import { isValidUrl } from '@/utils/sanitize';
+
+// Registro de lenguajes bajo demanda (build "light" de Prism).
+// Solo se incluyen en el bundle los lenguajes listados aquí, en vez de los
+// ~290 que trae el paquete completo. Cubre todo lo usado hoy en los posts
+// (bash, powershell, sql, markdown) más los más probables a futuro para un
+// blog de pentesting/bug bounty (python, json, http, yaml, html/xml).
+// Si un post usa un lenguaje no registrado, se degrada de forma segura a
+// texto plano sin resaltar (no rompe la página).
+SyntaxHighlighter.registerLanguage('bash', bashLang);
+SyntaxHighlighter.registerLanguage('sh', bashLang);
+SyntaxHighlighter.registerLanguage('shell', bashLang);
+SyntaxHighlighter.registerLanguage('powershell', powershellLang);
+SyntaxHighlighter.registerLanguage('ps1', powershellLang);
+SyntaxHighlighter.registerLanguage('sql', sqlLang);
+SyntaxHighlighter.registerLanguage('markdown', markdownLang);
+SyntaxHighlighter.registerLanguage('md', markdownLang);
+SyntaxHighlighter.registerLanguage('python', pythonLang);
+SyntaxHighlighter.registerLanguage('py', pythonLang);
+SyntaxHighlighter.registerLanguage('javascript', javascriptLang);
+SyntaxHighlighter.registerLanguage('js', javascriptLang);
+SyntaxHighlighter.registerLanguage('typescript', typescriptLang);
+SyntaxHighlighter.registerLanguage('ts', typescriptLang);
+SyntaxHighlighter.registerLanguage('json', jsonLang);
+SyntaxHighlighter.registerLanguage('yaml', yamlLang);
+SyntaxHighlighter.registerLanguage('yml', yamlLang);
+SyntaxHighlighter.registerLanguage('markup', markupLang);
+SyntaxHighlighter.registerLanguage('html', markupLang);
+SyntaxHighlighter.registerLanguage('xml', markupLang);
+SyntaxHighlighter.registerLanguage('svg', markupLang);
+SyntaxHighlighter.registerLanguage('http', httpLang);
 
 export function Post() {
   const { id } = useParams<{ id: string }>();
