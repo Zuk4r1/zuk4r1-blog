@@ -93,13 +93,13 @@ export function Post() {
         </div>
 
         {/* Post Header */}
-        <header className="mb-10 border-b border-cyber-border/30 pb-8">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-cyber font-bold text-cyber-text mb-6 leading-tight glow-text break-words">
+        <header className="mb-10 min-w-0 border-b border-cyber-border/30 pb-8">
+          <h1 className="max-w-full min-w-0 text-3xl sm:text-4xl md:text-5xl font-cyber font-bold text-cyber-text mb-6 leading-tight glow-text break-words [overflow-wrap:anywhere]">
             {post.title}
           </h1>
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-            <div className="flex flex-wrap items-center gap-4 text-cyber-muted font-mono text-xs sm:text-sm">
+          <div className="flex min-w-0 flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div className="flex min-w-0 flex-wrap items-center gap-4 text-cyber-muted font-mono text-xs sm:text-sm">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4 text-cyber-primary" />
                 <time>
@@ -117,11 +117,11 @@ export function Post() {
               </div>
             </div>
             
-            <div className="flex flex-wrap gap-2">
+            <div className="flex min-w-0 max-w-full flex-wrap gap-2">
               {post.tags.map((tag: string) => (
                 <span
                   key={tag}
-                  className="chip-3d chip-3d-sm cursor-default"
+                  className="chip-3d chip-3d-sm max-w-full cursor-default break-words"
                 >
                   {tag}
                 </span>
@@ -131,7 +131,7 @@ export function Post() {
         </header>
 
         {/* Post Content */}
-        <div className="markdown-body readable-list min-w-0">
+        <div className="markdown-body readable-list min-w-0 max-w-full">
           {post.description && (
              <blockquote className="border-l-4 border-cyber-primary bg-cyber-primary/5 p-4 rounded-r-lg not-italic text-cyber-text/90 mb-8">
                {post.description}
@@ -179,6 +179,8 @@ export function Post() {
                             background: '#0a0a0a',
                             fontSize: '0.9rem',
                             overflowX: 'auto',
+                            maxWidth: '100%',
+                            boxSizing: 'border-box',
                           }}
                           {...props}
                         >
