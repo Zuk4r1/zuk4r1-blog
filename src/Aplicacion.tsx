@@ -53,8 +53,8 @@ export default function Aplicación() {
 
     // ResizeObserver para cambios dinámicos en el header (por ejemplo menú apilado)
     const element = headerRef.current;
-    const ro = element && (window as any).ResizeObserver
-      ? new (window as any).ResizeObserver(() => setHeaderHeight())
+    const ro = element && typeof window.ResizeObserver !== 'undefined'
+      ? new ResizeObserver(() => setHeaderHeight())
       : null;
 
     if (ro && element) {
