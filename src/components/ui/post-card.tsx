@@ -1,7 +1,7 @@
-import { Link } from '@/lib/router';
+import { Link, useNavigate } from '@/lib/router';
 import { motion } from 'framer-motion';
 import { Clock, Calendar, ArrowRight } from 'lucide-react';
-import { memo } from 'react';
+import { memo, type MouseEvent } from 'react';
 
 interface PostCardProps {
   title: string;
@@ -17,6 +17,16 @@ interface PostCardProps {
  * Se renderiza solo cuando sus props cambien
  */
 export const PostCard = memo(function PostCard({ title, description, date, readTime, tags, href }: PostCardProps) {
+  const navigate = useNavigate();
+
+  const handleTagClick = (event: MouseEvent<HTMLButtonElement>, tag: string) => {
+    // Evita que el clic en un tag dispare también la navegación del Link
+    // que envuelve toda la tarjeta (no se puede anidar <a> dentro de <a>).
+    event.preventDefault();
+    event.stopPropagation();
+    navigate(`/tags/${tag}`);
+  };
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -50,12 +60,14 @@ export const PostCard = memo(function PostCard({ title, description, date, readT
             <div className="mb-4">
               <div className="flex flex-wrap gap-2 mb-3">
                 {tags.map((tag) => (
-                  <span
+                  <button
                     key={tag}
-                    className="chip-3d chip-3d-sm font-mono"
+                    type="button"
+                    onClick={(e) => handleTagClick(e, tag)}
+                    className="chip-3d chip-3d-sm font-mono hover:scale-105 transition-transform"
                   >
                     {tag}
-                  </span>
+                  </button>
                 ))}
               </div>
               
