@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
-import { useAllPosts } from '@/hooks/use-posts';
+import { usePublishedPosts } from '@/hooks/use-posts';
 import { PostCard } from '@/components/ui/post-card';
 import { formatPostDate } from '@/lib/date';
 
 export function Content() {
-  const posts = useAllPosts();
+  const posts = usePublishedPosts();
 
   return (
     <motion.div
