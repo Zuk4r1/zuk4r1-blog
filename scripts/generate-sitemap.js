@@ -75,7 +75,8 @@ export function generateSitemap() {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
       .replace(/[^a-z0-9-]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+      .replace(/^-+|-+$/g, '')
+      .replace(/-{2,}/g, '-');
 
     const lastmod = data.date && /^\d{4}-\d{2}-\d{2}$/.test(data.date)
       ? data.date
