@@ -51,10 +51,10 @@ export function useSEO({
     if (publishedTime) updateMeta('article:published_time', publishedTime, 'property');
 
     // 5. Twitter Card
-    updateMeta('twitter:title', title, 'property');
-    updateMeta('twitter:description', description, 'property');
-    updateMeta('twitter:card', 'summary_large_image', 'property');
-    if (image) updateMeta('twitter:image', image, 'property');
+    updateMeta('twitter:title', title);
+    updateMeta('twitter:description', description);
+    updateMeta('twitter:card', 'summary_large_image');
+    if (image) updateMeta('twitter:image', image);
 
     // 6. JSON-LD (Structured Data para Google)
     // Esto es CLAVE para "búsquedas relacionadas" y rich snippets
