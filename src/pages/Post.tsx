@@ -70,7 +70,7 @@ export function Post() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-4xl mx-auto"
+      className="w-full min-w-0 max-w-4xl mx-auto"
     >
       {/* Back button */}
       <Link 
@@ -82,7 +82,7 @@ export function Post() {
       </Link>
 
       {/* Main Content Card */}
-      <div className="glass-panel rounded-xl overflow-hidden p-6 md:p-10 relative">
+      <div className="glass-panel w-full min-w-0 rounded-xl overflow-x-hidden p-4 sm:p-6 md:p-10 relative">
         {/* Header Background Decoration */}
         <div className="absolute top-0 right-0 p-4 opacity-30">
            <div className="flex gap-2">
@@ -131,7 +131,7 @@ export function Post() {
         </header>
 
         {/* Post Content */}
-        <div className="markdown-body readable-list">
+        <div className="markdown-body readable-list min-w-0">
           {post.description && (
              <blockquote className="border-l-4 border-cyber-primary bg-cyber-primary/5 p-4 rounded-r-lg not-italic text-cyber-text/90 mb-8">
                {post.description}
@@ -160,7 +160,7 @@ export function Post() {
                   // Block code with detected language -> syntax highlighter
                   if (!inline && match) {
                     return (
-                      <div className="relative group my-6 rounded-lg overflow-hidden border border-cyber-border/50 shadow-2xl code-block">
+                      <div className="relative group my-6 min-w-0 rounded-lg overflow-hidden border border-cyber-border/50 shadow-2xl code-block">
                         <div className="absolute top-0 left-0 right-0 bg-[#1e1e1e] border-b border-white/10 px-4 py-2 flex items-center justify-between">
                            <div className="flex gap-1.5">
                              <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
