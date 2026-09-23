@@ -1,7 +1,7 @@
 import { NavLink } from '@/lib/router';
 import { Home, Tags, FileText, User, Github, Mail, Linkedin, X } from 'lucide-react';
 import { motion } from 'framer-motion';
-import perfil from '@/assets/perfil.png';
+import perfil from '@/assets/perfil.webp';
 
 // Icono personalizado de Discord
 function DiscordIcon({ className = "" }: { className?: string }) {
