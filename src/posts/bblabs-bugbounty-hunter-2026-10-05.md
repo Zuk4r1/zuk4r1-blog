@@ -10,38 +10,148 @@ readTime: "6 min"
 
 ## Aprender a cazar también se entrena
 
-Encontrar vulnerabilidades de forma consistente no depende solo de conocer herramientas: hace falta practicar cómo observar una aplicación, plantear hipótesis, validar el impacto y explicar el hallazgo con claridad. **BBLabs** ofrece un espacio para ejercitar ese proceso con laboratorios basados en errores y escenarios que un hunter puede encontrar durante una investigación de bug bounty.
+Cuando empecé a practicar bug bounty, una de las cosas que más rápido entendí fue que conocer muchas herramientas no significa necesariamente saber encontrar vulnerabilidades.
 
-!(public/imagenes/bblabs-dashboard.png)
+Puedes tener Burp Suite, Nuclei, ffuf o cualquier otra herramienta preparada, pero cuando tienes delante una aplicación real necesitas algo más: **saber observar, entender cómo funciona, plantear hipótesis y comprobarlas**.
 
-*El dashboard muestra 22 labs resueltos y un módulo de DOM XSS entre los retos de la ruta de aprendizaje.*
+Y precisamente ahí es donde BBLabs me ha resultado interesante.
+
+BBLabs es una plataforma de laboratorios orientada al aprendizaje de **Bug Bounty y seguridad web**, donde puedo practicar diferentes vulnerabilidades en escenarios controlados. Más que intentar resolver los retos simplemente buscando el payload correcto, he empezado a utilizar los laboratorios como una forma de entrenar el proceso de investigación que después puedo aplicar durante un hunting.
+
+**El dashboard permite ver los laboratorios que voy resolviendo y los módulos en los que he ido practicando.**
 
 ## Del reto a la metodología
 
-Un laboratorio es más útil cuando no se convierte en una carrera por pegar un payload. En cada reto intento seguir una secuencia que también sirve fuera de la plataforma:
+Una de las cosas que intento evitar cuando practico es convertir un laboratorio en una búsqueda de "qué payload funciona".
 
-1. **Entender el comportamiento esperado.** Recorro la funcionalidad y observo qué datos controlo, dónde aparecen y qué cambia según el contexto.
-2. **Formar una hipótesis concreta.** Relaciono el comportamiento con una clase de fallo, en lugar de probar entradas al azar.
-3. **Validar de forma controlada.** Busco una prueba mínima, reproducible y limitada al entorno del laboratorio.
-4. **Medir el impacto.** Distingo una anomalía de seguridad de un bug visual o funcional sin consecuencias relevantes.
-5. **Documentar el hallazgo.** Registro los pasos, la evidencia, el impacto y una posible mitigación como si preparara un reporte para un programa de recompensas.
+Prefiero detenerme a entender primero qué está ocurriendo.
 
-La repetición ayuda a reconocer patrones: validaciones incompletas, confianza excesiva en datos controlados por el usuario y diferencias entre lo que valida el cliente y lo que procesa la aplicación.
+Mi proceso suele ser algo parecido a esto:
+
+1. **Entender la funcionalidad.**
+   Primero recorro la aplicación y observo qué hace normalmente. Intento identificar qué datos puedo controlar y dónde terminan esos datos.
+
+2. **Buscar un comportamiento interesante.**
+   Si encuentro algo que llama mi atención, intento entender por qué ocurre antes de lanzar diferentes payloads sin un objetivo claro.
+
+3. **Plantear una hipótesis.**
+   A partir de ese comportamiento intento determinar qué vulnerabilidad podría existir y qué tendría que demostrar para confirmarla.
+
+4. **Validar la hipótesis.**
+   Utilizo pruebas pequeñas y controladas para comprobar si realmente existe un problema de seguridad.
+
+5. **Entender el impacto.**
+   No todo comportamiento extraño es una vulnerabilidad. Intento determinar qué podría conseguir un atacante y bajo qué condiciones.
+
+6. **Documentar lo encontrado.**
+   Finalmente, intento dejar los pasos suficientemente claros para que otra persona pueda reproducir el resultado, como si estuviera preparando un reporte de bug bounty.
+
+Con la práctica empiezas a reconocer ciertos patrones: datos que llegan a lugares donde no deberían, validaciones que solamente existen en el cliente, controles que pueden saltarse o funcionalidades que confían demasiado en información proporcionada por el usuario.
 
 ## Un ejemplo: DOM XSS y esquemas de URL
 
-En la ruta que aparece en mi dashboard, el reto se centra en **DOM XSS dentro de un runtime de formularios embebibles**, relacionado con la inyección de un esquema de URL. Es un buen recordatorio de que el análisis no termina al ver un valor reflejado: importa seguir cómo llega al DOM, qué contexto lo interpreta y si el navegador lo trata como contenido o como una navegación ejecutable.
+Uno de los laboratorios que aparece en mi recorrido trabaja un escenario de **DOM XSS dentro de un runtime de formularios embebibles**, relacionado con la inyección mediante un esquema de URL.
 
-En una revisión autorizada, el objetivo es probar el flujo con una carga inocua y demostrar el impacto sin afectar a otros usuarios. Después se debe explicar qué dato se controla, dónde se procesa y qué validación o codificación contextual evitaría el problema. Esa explicación es tan importante como encontrar la entrada vulnerable.
+Este tipo de laboratorio me parece especialmente interesante porque obliga a mirar más allá de una simple reflexión de parámetros.
 
-## Por qué me sirve como hunter
+La pregunta no es solamente:
 
-BBLabs convierte conceptos de seguridad web en práctica repetible. Los labs permiten concentrarse en una técnica, equivocarse sin poner en riesgo sistemas ajenos y volver a intentar el análisis hasta entender la causa del fallo. El dashboard y la ruta de aprendizaje también ayudan a visualizar el progreso y a elegir qué área reforzar después.
+> "¿Mi entrada aparece en la página?"
 
-Resolver retos no equivale automáticamente a conseguir una recompensa: los programas reales tienen alcances, reglas, tecnologías y criterios de impacto propios. Pero entrenar con escenarios concretos mejora la base para investigar con más método, comunicar hallazgos reproducibles y dedicar el tiempo de hunting a hipótesis mejor fundamentadas.
+La pregunta realmente importante es:
 
-## Cierre
+> **"¿Qué ocurre con esa entrada después de llegar al DOM?"**
 
-Para mí, el valor de BBLabs está en practicar el ciclo completo: observar, plantear una hipótesis, validar con cuidado y comunicar el resultado. Cada laboratorio resuelto suma experiencia; revisar por qué funcionó la solución es lo que ayuda a convertirse en un hunter más sólido.
+Ahí es donde empieza el análisis interesante.
 
-> Practica siempre dentro de laboratorios o programas con autorización explícita, y respeta el alcance y las reglas de cada objetivo.
+Hay que seguir el flujo del dato, entender qué código lo procesa, determinar en qué contexto termina y comprobar cómo interpreta el navegador ese valor.
+
+En un entorno autorizado, la validación puede hacerse con una prueba inocua que permita demostrar la ejecución sin afectar a otros usuarios. Después, el objetivo es poder explicar claramente el recorrido:
+
+**entrada controlada → procesamiento → sink → ejecución → impacto.**
+
+Ese proceso de seguir el flujo es mucho más valioso para mí que simplemente conseguir que aparezca un `alert()`.
+
+## Lo que me está aportando BBLabs
+
+Una de las ventajas que encuentro en este tipo de plataformas es que permiten repetir una misma idea hasta que deja de ser algo puramente teórico.
+
+Puedo equivocarme.
+
+Puedo probar una hipótesis que no funciona.
+
+Puedo volver atrás.
+
+Puedo analizar nuevamente la aplicación.
+
+Y puedo intentar entender por qué la solución funciona en lugar de limitarme a copiarla.
+
+Ese ciclo de prueba y error es importante porque muchas veces una vulnerabilidad no aparece de forma evidente. En un programa real, probablemente no voy a encontrar un parámetro acompañado de una etiqueta que diga "aquí tienes tu XSS".
+
+Voy a tener que descubrirlo.
+
+Por eso considero que los laboratorios son una buena forma de entrenar esa capacidad de observación.
+
+## No es lo mismo resolver un lab que hacer Bug Bounty
+
+También creo que es importante hacer esta distinción.
+
+Resolver laboratorios no significa automáticamente estar preparado para encontrar vulnerabilidades en cualquier programa de bug bounty.
+
+En un laboratorio conozco el objetivo y sé que existe una vulnerabilidad que debo encontrar. En un programa real puedo pasar horas investigando una funcionalidad sin encontrar nada.
+
+Además, aparecen otros factores:
+
+* El alcance del programa.
+* Las reglas de engagement.
+* Las tecnologías utilizadas.
+* La lógica específica de la aplicación.
+* El impacto real de cada vulnerabilidad.
+* Los falsos positivos.
+* La calidad de la evidencia.
+* Los criterios de severidad y aceptación del programa.
+
+Aun así, creo que los laboratorios cumplen una función importante: **permiten entrenar los músculos necesarios para el hunting**.
+
+## Lo que más me interesa como hunter
+
+Para mí, el valor de BBLabs no está solamente en acumular laboratorios resueltos.
+
+Lo interesante está en lo que ocurre mientras intento resolverlos.
+
+Cada reto me obliga a practicar una parte diferente del proceso:
+
+**observar → investigar → plantear hipótesis → validar → entender el impacto → documentar.**
+
+Con el tiempo, esa repetición ayuda a que ciertas situaciones empiecen a resultar familiares.
+
+Una aplicación que confía demasiado en un parámetro.
+
+Una validación que solamente ocurre en JavaScript.
+
+Un flujo que se comporta de manera diferente dependiendo del contexto.
+
+Un dato controlado por el usuario que termina en un lugar inesperado.
+
+Son precisamente esos pequeños detalles los que pueden convertirse en una buena pista durante una investigación real.
+
+## Mi conclusión
+
+Después de practicar diferentes laboratorios, cada vez veo más claro que **aprender Bug Bounty no consiste únicamente en aprender vulnerabilidades**.
+
+También hay que aprender a investigar.
+
+Las herramientas ayudan muchísimo, pero no sustituyen la capacidad de observar una aplicación y hacerse las preguntas correctas.
+
+BBLabs me está sirviendo precisamente para entrenar esa parte: enfrentarme a escenarios concretos, equivocarme, volver a analizar el comportamiento y entender finalmente por qué existe la vulnerabilidad.
+
+Al final, resolver el laboratorio es solo una parte.
+
+Lo realmente útil es poder terminarlo pensando:
+
+**"Ahora entiendo qué estaba pasando y sé cómo buscar algo parecido en otra aplicación."**
+
+Y probablemente ahí está una de las diferencias entre aprender a explotar una vulnerabilidad y empezar a aprender a **cazar vulnerabilidades**.
+
+> Practica siempre dentro de laboratorios o programas con autorización explícita. En un programa real, respeta siempre el alcance, las reglas y las políticas del objetivo.
+
