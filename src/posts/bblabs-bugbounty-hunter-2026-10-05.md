@@ -12,7 +12,7 @@ readTime: "6 min"
 
 Encontrar vulnerabilidades de forma consistente no depende solo de conocer herramientas: hace falta practicar cómo observar una aplicación, plantear hipótesis, validar el impacto y explicar el hallazgo con claridad. **BBLabs** ofrece un espacio para ejercitar ese proceso con laboratorios basados en errores y escenarios que un hunter puede encontrar durante una investigación de bug bounty.
 
-![Dashboard de BBLabs de @zuk4r1, con el progreso de labs y el reto de DOM XSS como siguiente módulo](public/imagenes/bblabs-dashboard.png)
+!(public/imagenes/bblabs-dashboard.png)
 
 *El dashboard muestra 22 labs resueltos y un módulo de DOM XSS entre los retos de la ruta de aprendizaje.*
 
