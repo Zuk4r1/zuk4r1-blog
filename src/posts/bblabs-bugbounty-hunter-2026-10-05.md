@@ -76,19 +76,19 @@ Ese proceso de seguir el flujo es mucho más valioso para mí que simplemente co
 
 Una de las ventajas que encuentro en este tipo de plataformas es que permiten repetir una misma idea hasta que deja de ser algo puramente teórico.
 
-Puedo equivocarme.
+* Puedo equivocarme.
 
-Puedo probar una hipótesis que no funciona.
+* Puedo probar una hipótesis que no funciona.
 
-Puedo volver atrás.
+* Puedo volver atrás.
 
-Puedo analizar nuevamente la aplicación.
+* Puedo analizar nuevamente la aplicación.
 
-Y puedo intentar entender por qué la solución funciona en lugar de limitarme a copiarla.
+* Y puedo intentar entender por qué la solución funciona en lugar de limitarme a copiarla.
 
 Ese ciclo de prueba y error es importante porque muchas veces una vulnerabilidad no aparece de forma evidente. En un programa real, probablemente no voy a encontrar un parámetro acompañado de una etiqueta que diga "aquí tienes tu XSS".
 
-Voy a tener que descubrirlo.
+**Voy a tener que descubrirlo.**
 
 Por eso considero que los laboratorios son una buena forma de entrenar esa capacidad de observación.
 
@@ -115,37 +115,33 @@ Aun así, creo que los laboratorios cumplen una función importante: **permiten 
 
 ## Lo que más me interesa como hunter
 
-Para mí, el valor de BBLabs no está solamente en acumular laboratorios resueltos.
+* Para mí, el valor de BBLabs no está solamente en acumular laboratorios resueltos.
 
-Lo interesante está en lo que ocurre mientras intento resolverlos.
+* Lo interesante está en lo que ocurre mientras intento resolverlos.
 
-Cada reto me obliga a practicar una parte diferente del proceso:
+* Cada reto me obliga a practicar una parte diferente del proceso:
 
 **observar → investigar → plantear hipótesis → validar → entender el impacto → documentar.**
 
-Con el tiempo, esa repetición ayuda a que ciertas situaciones empiecen a resultar familiares.
+* Con el tiempo, esa repetición ayuda a que ciertas situaciones empiecen a resultar familiares.
 
-Una aplicación que confía demasiado en un parámetro.
+* Una aplicación que confía demasiado en un parámetro.
 
-Una validación que solamente ocurre en JavaScript.
+* Una validación que solamente ocurre en JavaScript.
 
-Un flujo que se comporta de manera diferente dependiendo del contexto.
+* Un flujo que se comporta de manera diferente dependiendo del contexto.
 
-Un dato controlado por el usuario que termina en un lugar inesperado.
+* Un dato controlado por el usuario que termina en un lugar inesperado.
 
-Son precisamente esos pequeños detalles los que pueden convertirse en una buena pista durante una investigación real.
+* Son precisamente esos pequeños detalles los que pueden convertirse en una buena pista durante una investigación real.
 
 ## Mi conclusión
 
-Después de practicar diferentes laboratorios, cada vez veo más claro que **aprender Bug Bounty no consiste únicamente en aprender vulnerabilidades**.
-
-También hay que aprender a investigar.
+Después de practicar diferentes laboratorios, cada vez veo más claro que **aprender Bug Bounty no consiste únicamente en aprender vulnerabilidades**, también hay que aprender a investigar.
 
 Las herramientas ayudan muchísimo, pero no sustituyen la capacidad de observar una aplicación y hacerse las preguntas correctas.
 
-BBLabs me está sirviendo precisamente para entrenar esa parte: enfrentarme a escenarios concretos, equivocarme, volver a analizar el comportamiento y entender finalmente por qué existe la vulnerabilidad.
-
-Al final, resolver el laboratorio es solo una parte.
+BBLabs me está sirviendo precisamente para entrenar esa parte: enfrentarme a escenarios concretos, equivocarme, volver a analizar el comportamiento y entender finalmente por qué existe la vulnerabilidad, al final, resolver el laboratorio es solo una parte.
 
 Lo realmente útil es poder terminarlo pensando:
 
