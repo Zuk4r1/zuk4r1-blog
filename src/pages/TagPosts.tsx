@@ -86,6 +86,8 @@ export function TagPosts() {
               readTime={post.readTime || '5 min'}
               tags={post.tags}
               href={`/post/${post.id}`}
+              coverImage={post.coverImage}
+              coverAlt={post.coverAlt}
             />
           ))}
         </div>

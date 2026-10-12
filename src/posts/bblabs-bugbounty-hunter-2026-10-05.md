@@ -18,7 +18,7 @@ Y precisamente ahí es donde BBLabs me ha resultado interesante.
 
 BBLabs es una plataforma de laboratorios orientada al aprendizaje de **Bug Bounty y seguridad web**, donde puedo practicar diferentes vulnerabilidades en escenarios controlados. Más que intentar resolver los retos simplemente buscando el payload correcto, he empezado a utilizar los laboratorios como una forma de entrenar el proceso de investigación que después puedo aplicar durante un hunting.
 
-**El dashboard permite ver los laboratorios que voy resolviendo y los módulos en los que he ido practicando.**
+![El dashboard permite ver los laboratorios que voy resolviendo y los módulos en los que he ido practicando.](/imagenes/Dashboard.webp)
 
 ## Del reto a la metodología
 

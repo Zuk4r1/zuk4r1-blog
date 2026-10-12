@@ -47,6 +47,8 @@ export function Index() {
                 readTime={post.readTime ?? ''}
                 tags={post.tags}
                 href={`/post/${post.id}`}
+                coverImage={post.coverImage}
+                coverAlt={post.coverAlt}
               />
             </motion.div>
           ))}

@@ -88,6 +88,21 @@ export const isValidUrl = (url: string): boolean => {
   }
 };
 
+// Validar src de imagen (frontmatter coverImage o markdown inline)
+// Acepta: URL http(s) absoluta, o ruta local dentro de /imagenes/ o /assets/
+// Rechaza: protocolos peligrosos y path traversal.
+export const isValidImageSrc = (src: string): boolean => {
+  if (!src || typeof src !== 'string') return false;
+  const trimmed = src.trim();
+  if (trimmed.includes('..')) return false;
+
+  if (trimmed.startsWith('/imagenes/') || trimmed.startsWith('/assets/')) {
+    return /^\/(imagenes|assets)\/[a-zA-Z0-9/_\-.]+\.(png|jpe?g|gif|webp|svg|avif)$/i.test(trimmed);
+  }
+
+  return isValidUrl(trimmed);
+};
+
 // CSP nonce generator (para uso con inline scripts si es necesario)
 export const generateNonce = (): string => {
   const array = new Uint8Array(16);

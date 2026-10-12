@@ -10,13 +10,15 @@ interface PostCardProps {
   readTime: string;
   tags: string[];
   href: string;
+  coverImage?: string;
+  coverAlt?: string;
 }
 
 /**
  * PostCard - Componente puro memoizado para optimizar re-renders
  * Se renderiza solo cuando sus props cambien
  */
-export const PostCard = memo(function PostCard({ title, description, date, readTime, tags, href }: PostCardProps) {
+export const PostCard = memo(function PostCard({ title, description, date, readTime, tags, href, coverImage, coverAlt }: PostCardProps) {
   const navigate = useNavigate();
 
   const handleTagClick = (event: MouseEvent<HTMLButtonElement>, tag: string) => {
@@ -55,7 +57,22 @@ export const PostCard = memo(function PostCard({ title, description, date, readT
 
           {/* Glow effect on hover */}
           <div className="absolute inset-0 bg-gradient-to-br from-cyber-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
-          
+
+          {coverImage && (
+            <div className="relative w-full aspect-video overflow-hidden border-b border-cyber-border/30">
+              <img
+                src={coverImage}
+                alt={coverAlt || title}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                onError={(e) => {
+                  e.currentTarget.closest('.aspect-video')?.classList.add('hidden');
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-cyber-card/80 via-transparent to-transparent" />
+            </div>
+          )}
+
           <div className="p-6 flex flex-col flex-grow z-10">
             <div className="mb-4">
               <div className="flex flex-wrap gap-2 mb-3">

@@ -2,6 +2,7 @@ import matter from 'gray-matter';
 import { Buffer } from 'buffer';
 import { toTimestampLocal } from '@/lib/date';
 import { logger } from '@/lib/logger';
+import { isValidImageSrc } from '@/utils/sanitize';
 
 // Asegurar Buffer en entorno navegador para librerías que lo esperan
 const g = globalThis as unknown as { Buffer?: typeof Buffer };
@@ -18,6 +19,8 @@ export interface Post {
   tags: string[];
   readTime?: string;
   content?: string;
+  coverImage?: string;
+  coverAlt?: string;
 }
 
 // Función para obtener todos los archivos .md de la carpeta posts (eager para HMR)
@@ -57,6 +60,12 @@ function parseMarkdownFileSync(filePath: string, fileContent: string): Post | nu
     const normalizedDate = dateFromName
       || (regexYmd.test(rawDataDate) ? rawDataDate : '');
 
+    const rawCoverImage = typeof data.coverImage === 'string' ? data.coverImage.trim() : '';
+    const coverImage = rawCoverImage && isValidImageSrc(rawCoverImage) ? rawCoverImage : undefined;
+    if (rawCoverImage && !coverImage) {
+      logger.error('posts.parsePost', `coverImage inválida en ${filePath}: "${rawCoverImage}"`);
+    }
+
     return {
       id,
       title: (data.title as string) || id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
@@ -66,6 +75,8 @@ function parseMarkdownFileSync(filePath: string, fileContent: string): Post | nu
       tags: Array.isArray(data.tags) ? (data.tags as unknown[]).map((t) => String(t).toLowerCase()) : [],
       readTime: (data.readTime as string) || '',
       content,
+      coverImage,
+      coverAlt: (data.coverAlt as string) || '',
     };
   } catch (error) {
     logger.error('posts.parsePost', `Error al parsear archivo ${filePath}`, error);

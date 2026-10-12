@@ -22,7 +22,7 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Calendar, Clock, ArrowLeft, Terminal } from 'lucide-react';
 import { parseDateLocal } from '@/lib/date';
 import { useSEO } from '@/hooks/use-seo';
-import { isValidUrl } from '@/utils/sanitize';
+import { isValidUrl, isValidImageSrc } from '@/utils/sanitize';
 
 // Registro de lenguajes bajo demanda (build "light" de Prism).
 // Solo se incluyen en el bundle los lenguajes listados aquí, en vez de los
@@ -58,12 +58,26 @@ export function Post() {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = React.useState<PostType | null>(null);
   const [loading, setLoading] = React.useState(true);
+  const [lightbox, setLightbox] = React.useState<{ src: string; alt?: string } | null>(null);
+
+  React.useEffect(() => {
+    if (!lightbox) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightbox(null);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [lightbox]);
+
+  const ogImage = post?.coverImage
+    ? (post.coverImage.startsWith('/') ? `${window.location.origin}${post.coverImage}` : post.coverImage)
+    : 'https://www.blog-cyber.co/og-image.jpg';
 
   useSEO({
     title: post ? post.title : 'Cargando...',
     description: post ? post.description : 'Cargando artículo...',
     url: window.location.href,
-    image: 'https://www.blog-cyber.co/og-image.jpg', // Imagen por defecto o específica si existiera
+    image: ogImage,
     type: 'article',
     keywords: post ? post.tags : [],
     publishedTime: post ? parseDateLocal(post.date).toISOString() : undefined,
@@ -172,6 +186,21 @@ export function Post() {
           </div>
         </header>
 
+        {post.coverImage && isValidImageSrc(post.coverImage) && (
+          <div className="relative mb-10 group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-cyber-primary to-cyber-secondary rounded-lg blur opacity-20"></div>
+            <img
+              src={post.coverImage}
+              alt={post.coverAlt || post.title}
+              className="relative w-full max-h-[480px] object-cover rounded-lg shadow-2xl border border-cyber-border"
+              loading="eager"
+              onError={(e) => {
+                e.currentTarget.closest('.group')?.classList.add('hidden');
+              }}
+            />
+          </div>
+        )}
+
         {/* Post Content */}
         <div className="markdown-body readable-list min-w-0 max-w-full">
           {post.description && (
@@ -273,15 +302,16 @@ export function Post() {
                 },
                 img: ({src, alt}) => {
                   const safeSrc = src || '';
-                  if (isValidUrl(safeSrc) || safeSrc.startsWith('/') || safeSrc.startsWith('./')) {
+                  if (isValidImageSrc(safeSrc)) {
                     return (
                       <div className="my-8 relative group">
                         <div className="absolute -inset-1 bg-gradient-to-r from-cyber-primary to-cyber-secondary rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <img
                           src={safeSrc}
                           alt={alt}
-                          className="relative rounded-lg shadow-2xl border border-cyber-border w-full object-contain"
+                          className="relative rounded-lg shadow-2xl border border-cyber-border w-full object-contain cursor-zoom-in"
                           loading="lazy"
+                          onClick={() => setLightbox({ src: safeSrc, alt })}
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';
                           }}
@@ -311,6 +341,22 @@ export function Post() {
            </button>
         </div>
       </div>
+
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 cursor-zoom-out"
+          onClick={() => setLightbox(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <img
+            src={lightbox.src}
+            alt={lightbox.alt}
+            className="max-w-full max-h-full object-contain rounded-lg border border-cyber-border shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </motion.article>
   );
 }
