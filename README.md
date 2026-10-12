@@ -99,6 +99,63 @@ Con el objetivo de reforzar su crecimiento profesional y aportar valor real a la
 
 ---
 
+## 🖼️ Cómo añadir imágenes a un post
+
+Cada post vive en `src/posts/<nombre>-YYYY-MM-DD.md`. Las imágenes se sirven desde `public/imagenes/<slug-del-post>/`, una carpeta por post para evitar colisiones de nombres entre writeups.
+
+### 1. Optimizar la imagen
+
+```bash
+npm run image <ruta-de-la-captura> <slug-del-post> [nombre-salida] [--width=1600]
+```
+
+Ejemplo:
+
+```bash
+npm run image ~/capturas/burp-request.png hackthebox-jerry
+```
+
+El script redimensiona (máx. 1600px de ancho por defecto), convierte a `.webp` y deja el archivo en:
+
+```
+public/imagenes/hackthebox-jerry/burp-request.webp
+```
+
+e imprime la ruta exacta a usar en el post.
+
+### 2. Imagen destacada (portada)
+
+En el frontmatter del `.md`, añade `coverImage` (y opcionalmente `coverAlt`). Se usa como miniatura en las tarjetas del listado, banner en la cabecera del post, y como imagen de Open Graph/Twitter al compartir el enlace:
+
+```yaml
+---
+title: "HackTheBox Jerry: de Tomcat a SYSTEM"
+...
+coverImage: "/imagenes/hackthebox-jerry/cover.webp"
+coverAlt: "Panel de Tomcat Manager expuesto"
+---
+```
+
+Si se omite, el post simplemente no muestra portada (no rompe el layout).
+
+### 3. Imágenes dentro del cuerpo del post
+
+Markdown estándar, en cualquier parte del contenido:
+
+```markdown
+![Petición interceptada en Burp Suite](/imagenes/hackthebox-jerry/burp-request.webp)
+```
+
+El texto entre `[]` se usa como `alt` y como pie de foto. Al hacer click, la imagen se abre en un lightbox a pantalla completa (útil para leer capturas de terminal o de Burp).
+
+### Reglas de seguridad
+
+- Las rutas locales solo se aceptan dentro de `/imagenes/` o `/assets/` (previene path traversal).
+- También se admiten URLs `https://` externas, pero se recomienda alojar todo en `/imagenes/` para no depender de servicios de terceros.
+- Si una imagen no carga, se oculta sola sin romper el resto del post.
+
+---
+
 ## 📌 Aviso legal
 
 Todo el contenido publicado en CYBER-BLOG tiene fines **educativos y de investigación**.  
